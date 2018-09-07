@@ -1,84 +1,85 @@
+# What is this?
+An app that collects and organizes a users wants, needs, and interests. Instead of looking through a mess of notes, emails and texts of ideas or recommendations (i.e books, tv shows, restaurants, clothes, etc.) a user can simply input the thing they want and the app will categorize/organize the items for them.
+
 # MVP
 - [√] store items
- - [√] create new item
- - [√] select item
- - [√] edit/update item
- - [√] delete item
+- [√] create new item
+- [√] select item
+- [√] edit/update item
+- [√] delete item
 
+# Detail Todo
+### Front End
+- [√] display items
+- [ ] remove items from display
+- [√] enter new item
+- [√] select item for edit
+- [√] select item for delete
+  - [ ] confirm delete box
+- [√] a form!
 
- # Detail Todo
- - [ ] Front End
-   - [√] display items
-   - [√] enter new item
-   - [√] select item for edit
-   - [√] select item for delete
-   - [√] a form!
+### UI/UX
+- [ ] Confirmation of delete/update
+- [ ] Sortable list
+- [ ] Navigation/Pagination
+- [ ] Mouse over Preview
+- [ ] Searching/Filtering
+- [ ] Animations/Transitions
 
-   - [ ] UI/UX
-     - [ ] Confirmation of delete/update
-     - [ ] Sortable list
-     - [ ] Navigation/Pagination
-     - [ ] Mouse over Preview
-     - [ ] Searching/Filtering
-     - [ ] Animations/Transitions
+### Library Considerations
+- [ ] underscore
+- [√] jquery
+- [ ] moments.js
+- [ ] c3.js (charts.js)
 
-  - [ ] Library Considerations
-    - [ ] underscore
-    - [√] jquery
-    - [ ] moment.js
-    - [ ] c3.js (charts.js)
+# Next Steps
+- [ ] factor out common functionality
+- [ ] testing
 
- ## Next Steps
+# Feature list
+### Difficulty Scale (from 1 to 10 )
+ 2.5 days === 20 hours
+- 1 = finished 
+- 2 = 1 hour
+- 5 = 3 hours
+- 7 = 5 hours
+- 10 = full day+
 
-  - [ ] factor out common functionality
-  - [ ] testing
+## basic features
+- [5] search form at top
+- [2] input item form under search
+  - [2] adding items has dropdown list with general categories
+  - [2] + button to add new category
+- [5] categories to hold specific items below input
+  - grid based layout 3 x 4 (3 across/infinte down?)
+- [3] edit items
+- [2] secret corgi easter egg when user added corgi to specific category
 
+## advanced features
+- [3] select and delete multiple items (highlight/checkbox?)
+- [2] add/leave comments on item
+- [2] share items/categories to social media
+- [2] due date
+- [2] add timestamps to each item
+  - [2] format with moments.js
+- [2] mouse over items for more detail
+- [3] user can add image to represent categories/items
+- [3] set item importance/priority
+  - [2] color code priority
 
-  ## Feature list
-  * denotes on my to do for the project
-  2.5 days = 20 hours
+## complex features
+- [8] search auto completes (search/filter on keyup/keydown)
+- [9] item input and search as one form (app detects if new item or already exists)
+- [8] pagination/infinity scroll (if more than 10 show a next button)
+- [5] reminders 
+  - [9] push operation
+- [6] history of deleted items
+  - [2] user can decide how long items stay in history
+- [7] options page
+  - [2] font changes/choices? (google fonts)
+  - [6] night mode theme
+  - [7] color layout/themes
 
-  ### difficulty scale 1-10. 1 meaning it's already finished 10 meaning what?!?!
-
-  5 = 3 hours
-  7 = 5 hours
-  10 = full day + ??
-
-  *(5) add due date
-  *(7) time stamps (moment.js)
-  (5) format the display of the items in a list (need to add more detail)
-  (??) fix the layout
-  (7) color coded priority
-  highlight certain items
-  mouse over to see details
-  ability to select and delete multiple items (checkbox?)
-  add status/priorty and allow for sorting based on status/priority
-  Item categories
-  ability to add/leave comments on item
-  upload files/images
-  share item
-  drag and drop to arrange
-  search/filter on keyup/keydown
-  reminders? (push operation?)
-  secret corgi
-  delete item confirmation
-  fillet edges of boxes
-  font changes/choices? (google fonts)
-  Panic Button
-  Highlight based on status/priority/due date
-  options page (ability to set/toggle options)
-  show deleted items and allow for undelete
-  pagination (if more than 10 show a next button)
-  category pages (not really pages, just a show/hide trick)
-  strike-through completed/deleted items (styling)
-  add more items button, that shows another input section allowing for multiple items to be added at once
-  Fun stuff
-  auto-complete when searching/filtering
-
-
-
-
-
-
-
-
+ ## design ideas
+- [2] fillet edges of boxes
+- [2] strike-through completed/deleted items
