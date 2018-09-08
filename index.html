@@ -7,61 +7,61 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="app.js"></script>
   </head>
+
   <body>
-      <div id="wrapper">
-  <div class='main'>
-    
-  </div>
- 
-
-  
-  </body>
-</html>
-
-<div class="wrapper">
+  <div class="main">
 
     <header>
       <h1>List App</h1>
     </header>
-      
-  <section class="column-section">
-    
-    <div class="outer-column">
-      <h2>Left Border</h2>
-    </div>
-    
-    <div class="main-column">
-      <div class="content-row">
-        <h2>Add New Item</h2>
-        <input type="text" class="user-input-title" placeholder="Enter the Title">
-        <br>
-        <textarea class="user-input-body" placeholder="Enter the body of text"></textarea>
-        <br>
-        <button class="add-text-btn">add text</button>
-        <br>
-        <button class="del-text-btn">delete text</button>
-        <br>
-        <div class="display"></div>
-      </div>
+        
+    <section class="column-section">
 
-      <div class="category-row">
-        <!-- <h3>Categories</h3> -->
-        <div class="new-category-item" id="add-new-category">add new category</div>
-        <div class="category-item" id="books">Books</div>
-        <div class="category-item" id="recipes">Recipes</div>
-        <div class="category-item" id="movies">Movies</div>
-        <div class="category-item" id="movies">Restaurants</div>
+      <div class="outer-column">
+        <h2>Left Border</h2>
       </div>
+      
+      <div class="main-column">
+        <div class="content-row">
+          <input type="text" class="user-input-title" placeholder="Item Name">
+          <input class="user-input-body" placeholder="Item Description"></input>
+          <select>
+              <option value="" disabled="disabled" selected="selected">Select a category</option>
+              <option value="">Add New Category</option>
+              <option disabled="disabled">----</option>
+              <option value="books">Books</option>
+              <option value="recipes">Recipes</option>
+              <option value="movies">Movies</option>
+              <option value="restaurants">Restaurants</option>
+          </select>
+          <br>
+          <button class="add-text-btn">add text</button>
+          <button class="del-text-btn">delete text</button>
+          <br>
+          <div class="display"></div>
+        </div>
+
+        <div class="category-row">
+          <div class="category-list">
+            <div class="add-category-item" id="add-category">Add New Category</div>
+            <div class="category-item" id="books">Books</div>
+            <div class="category-item" id="recipes">Recipes</div>
+            <div class="category-item" id="movies">Movies</div>
+            <div class="category-item" id="restaurants">Restaurants</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="outer-column">
+        <h2>Right Border</h2>
+      </div>
+      
+    </section>	
+      
+      <footer>
+        <h2>Footer</h2>
+      </footer>
+    
     </div>
-    
-    <div class="outer-column">
-      <h2>Right Border</h2>
-    </div>
-    
-  </section>	
-    
-    <footer>
-      <h2>Footer</h2>
-    </footer>
-  
-  </div>
+  </body>
+</html>

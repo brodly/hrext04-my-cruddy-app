@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     localStorage.setItem(inputKey, inputValue);
     // data-
-    let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Title: ${inputKey}<br>Body: ${localStorage.getItem(inputKey)}</div>`;
+    let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Title: ${inputKey} Body: ${localStorage.getItem(inputKey)}</div>`;
     $(".display").html(itemHtml);
     //console.log(localStorage);
     // how can we delegate this event to the outer html node?
@@ -58,4 +58,36 @@ $(document).ready(function() {
    // store data with individual keys
   // how do we get keys? research Object.keys
 
+  $(".add-category-item").on("click", function() {
+    var category = prompt('New Category Name');
+    if (category !== null) {
+      if (category !== '') {
+        category = category[0].toUpperCase() + category.slice(1);
+        $(".content-row select").append(`<option value="${category.toLowerCase()}">${category}</option>`);
+        $(".category-list").append(`<div class="category-item" id="${category.toLowerCase()}">${category}</div>`);
+      } else {
+        console.log('Category is NULL')
+      }
+    }
+  });
+
+  $(".category-item").on('mouseover', function(event){
+    //console.log(event);
+    // var $categoryName = $(`#${event.target.id}`);
+    // $categoryName.css()
+  });
+
+  $(".category-item, .add-category-item").hover(function(){
+    if (!$(this).hasClass('animated')) {
+      $(this).dequeue().stop().animate({ 
+        fontSize: "1.25em", 
+      });
+    }
+  }, function() {
+      $(this).addClass('animated').animate({  
+        fontSize: "1em" 
+      }, "slow", "linear", function() {
+      $(this).removeClass('animated').dequeue();
+    });
+  });
 });
