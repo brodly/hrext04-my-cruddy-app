@@ -26,6 +26,12 @@ var searchLocalStorage = function(term) {
   }
 }
 
+var formatString = function(string) {
+  return string.replace(/(^|\s)[a-z]/g, function(f) {
+    return f.toUpperCase();
+  })
+};
+
 
 $(document).ready(function() {
   /*
@@ -137,13 +143,13 @@ $(document).ready(function() {
   Add Category Button Functionality
   Prompts users to create a new catgeory and appends it to the end of the category list 
   */
-  $addCategoryItem.on("click", function() {
+  $categoryRow.on("click", ".add-category-item", function() {
     var category = prompt('New Category Name');
     if (category !== null) {
       if (category !== '') {
         category = category[0].toUpperCase() + category.slice(1);
-        $(".content-row select").append(`<option value="${category.toLowerCase()}">${category}</option>`);
-        $categoryContainer.append(`<div class="category-item" id="${category.toLowerCase()}">${category}</div>`);
+        $(".content-row select").append(`<option value="${category.toLowerCase()}">${formatString(category)}</option>`);
+        $(".category-container").append(`<div class="category-item" id="${category.toLowerCase()}">${formatString(category)}</div>`);
       } else {
         console.log('Category is NULL')
       }
@@ -159,7 +165,7 @@ $(document).ready(function() {
     var eventCategoryName = event.target.id;
     $categoryRow.html(`
     <div class="category-display" id="books">
-    <div id="title">${eventCategoryName}</div><div id="close">X</div>
+    <div id="title">${formatString(eventCategoryName)}</div><div id="close">X</div>
     <div class="category-list">
       <div class="item" id="catcher-in-the-rye">Catcher In The Rye</div>
       <div class="item" id="the-bible">The Bible</div>
@@ -175,21 +181,47 @@ $(document).ready(function() {
   Enlarges font size by .15em on hover and returns to original on complete
   POSSIBLE IDEA: Change bg color/opacity
   */
-  $categoryRow.on("mouseover", ".category-item, .add-category-item", function() {
-    if (!$(this).hasClass('animated')) { 
-      $(this).dequeue().stop().animate({ 
-        fontSize: "1.15em",
-      }, "300", "swing", function() {
-        $(this).addClass('animated').animate({ 
+  $categoryRow.on({
+    mouseenter: function() {
+      if (!$(this).hasClass('animated')) { 
+        $(this).dequeue().stop().animate({ 
+          fontSize: "1.15em"
+        }, "300", "swing")
+      }
+    }, 
+    
+    mouseleave: function() {
+      $(this).addClass('animated').animate({ 
           fontSize: "1em" 
         }, "500", "swing", function() {
           $(this).removeClass('animated').dequeue();
-        });
-      })
+        })
     }
-  });
+  }, ".category-item");
+    
+    
+  //   "mouseenter", ".category-item", , 
+  //   }
+  // });
 
-
+  $categoryRow.on({
+    mouseenter: function() {
+      if (!$(this).hasClass('animated')) { 
+        $(this).dequeue().stop().animate({ 
+          fontSize: "2.8em"
+        }, "300", "swing")
+      }
+    }, 
+    
+    mouseleave: function() {
+      $(this).addClass('animated').animate({ 
+          fontSize: "2em" 
+        }, "500", "swing", function() {
+          $(this).removeClass('animated').dequeue();
+        })
+    }
+  }, ".add-category-item");
+  
   /*
   Category Container Close Button
   X button at the top right of the category title. On click returns user
@@ -198,7 +230,7 @@ $(document).ready(function() {
   $categoryRow.on('click', '#close', function() {
     $categoryRow.html(`
     <div class="category-container">
-    <div class="add-category-item" id="add-category">Add Category</div>
+    <div class="add-category-item" id="add-category">+</div>
     <div class="category-item" id="books">Books</div>
     <div class="category-item" id="recipes">Recipes</div>
     <div class="category-item" id="movies">Movies</div>

@@ -136,27 +136,29 @@ div#close {
 
 .add-category-item {
   order: 1;
-  width: 150px;
-  height: 150px;
-  margin: 15px;
-  border: dashed 1px grey;
-  text-align: center;
-  line-height: 150px;
+  border: dotted 1.2px;
   background: lightgray;
+  opacity: .75;
+  font-size: 2em;
+}
+
+.category-item {
+  border: solid 1px grey;
+  background: lightgrey;
+  opacity: .75;
 }
 
 .category-item:hover, .add-category-item:hover {
   background: lightcyan;
 }
 
-.category-item {
+.category-item, .add-category-item {
   width: 150px;
   height: 150px;
   margin: 15px;
-  border: solid 1px grey;
   text-align: center;
   line-height: 150px;
-  background: lightgray;
+  color: black;
 }
 
 .category-list {
