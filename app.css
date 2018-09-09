@@ -97,7 +97,7 @@ input.user-input-title, input.user-input-desc, select, button.add-text-btn {
   padding: 20px;
 }
 
-.category-display {
+.category-container, .category-display {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
@@ -119,21 +119,34 @@ input.user-input-title, input.user-input-desc, select, button.add-text-btn {
   margin: 10px;
 }
 
-#test {
+div#title {
+  margin: 10px;
+  text-align: center;
+  width: 92%;
+  border: 1px solid blue;
+}
+
+div#close {
   flex: 0;
-  font-size: 1.15em;
-  border: 1px solid salmon;
-  height: 100%;
-  padding: 10px;
+  width: 8%;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid green;
 }
 
 .add-category-item {
+  order: 1;
   width: 150px;
   height: 150px;
   margin: 15px;
   border: dashed 1px grey;
   text-align: center;
   line-height: 150px;
+  background: lightgray;
+}
+
+.category-item:hover, .add-category-item:hover {
+  background: lightcyan;
 }
 
 .category-item {
@@ -143,6 +156,7 @@ input.user-input-title, input.user-input-desc, select, button.add-text-btn {
   border: solid 1px grey;
   text-align: center;
   line-height: 150px;
+  background: lightgray;
 }
 
 .category-list {
@@ -162,14 +176,6 @@ input.user-input-title, input.user-input-desc, select, button.add-text-btn {
   border: 1px solid;
   width: 100%;
 }
-
-/* h2 {
-  text-align: center;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid blue;
-  width: 100%;
-} */
 
 footer {
   padding: 0 15px;

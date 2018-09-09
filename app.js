@@ -28,22 +28,36 @@ var searchLocalStorage = function(term) {
 
 
 $(document).ready(function() {
+  /*
+  jQuery selector variables
+  */
+  var $inputSearchBar = $("input.search-bar");
+  var $addTextBtn = $(".add-text-btn");
+  var $userInputTitle = $(".user-input-title");
+  var $userInputDesc = $(".user-input-desc");
+  var $displayItem = $(".display-item");
+  var $addCategoryItem = $(".add-category-item");
+  var $categoryRow = $(".category-row");
+  var $categoryContainer = $(".category-container");
+  var $categoryList = $(".category-list");
+  var $categoryDisplay = $(".category-display");
+
 
   /* 
   Search bar functionality
   Both on individual keypress (realtime search) and on enter
   */
 
-  $("input.search-bar").on('keyup', function(event) {
-    var $searchVal = $("input.search-bar").val();
+  $inputSearchBar.on('keyup', function(event) {
+    var $searchVal = $inputSearchBar.val();
     if (searchLocalStorage($searchVal) !== false) {
       console.log(localStorage.getObject(searchLocalStorage($searchVal)));
     }
   });
 
-  $("input.search-bar").on('keypress', function(event) {
+  $inputSearchBar.on('keypress', function(event) {
     var key = event.which;
-    var $searchVal = $("input.search-bar").val();
+    var $searchVal = $inputSearchBar.val();
     if (key === 13) {
       console.log(localStorage.getObject(searchLocalStorage($searchVal)));
     }
@@ -55,10 +69,10 @@ $(document).ready(function() {
   Adds Item in localStorage as an object.
   */
 
-  $(".add-text-btn").on("click", function(){
+  $addTextBtn.on("click", function(){
     // store values
-    let inputKey = $(".user-input-title").val().replace(/\s+/g, '').toLowerCase();
-    let inputDesc = $(".user-input-desc").val();
+    let inputKey = $userInputTitle.val().replace(/\s+/g, '').toLowerCase();
+    let inputDesc = $userInputDesc.val();
     let inputCategory = $("select").val();
 
     if (inputCategory === null) {
@@ -66,8 +80,8 @@ $(document).ready(function() {
     }
 
     // clear form values
-    $(".user-input-title").val("");
-    $(".user-input-desc").val("");
+    $userInputTitle.val("");
+    $userInputDesc.val("");
 
     console.log('Item Stored in localStorage: ', inputKey, inputDesc, inputCategory);
     
@@ -91,7 +105,7 @@ $(document).ready(function() {
 
     NOTE: Item display now moved into particular category
     */
-    $(".display-item").on("click", function(e){
+    $displayItem.on("click", function(e){
       // plop the key:value back into the input boxes
 
       // get the values from the the divs?
@@ -100,8 +114,8 @@ $(document).ready(function() {
       console.log(JSON.parse(test));
 
       // set those values in the form fields
-      $(".user-input-title").val(e.target.dataset.storageKey);
-      $(".user-input-desc").val(localStorage.getItem(e.target.dataset.storageKey));
+      $userInputTitle.val(e.target.dataset.storageKey);
+      $userInputDesc.val(localStorage.getItem(e.target.dataset.storageKey));
     });
 
   });
@@ -113,8 +127,8 @@ $(document).ready(function() {
   $(".del-text-btn").on("click", function() {
     alert('item deleted? check the console'); // maybe change to a window.confirm
     localStorage.removeItem( $('.user-input-title').val() ); // grab the title and plop here
-    $(".user-input-title").val("");
-    $(".user-input-desc").val("");
+    $userInputTitle.val("");
+    $userInputDesc.val("");
   });
   */
 
@@ -123,13 +137,13 @@ $(document).ready(function() {
   Add Category Button Functionality
   Prompts users to create a new catgeory and appends it to the end of the category list 
   */
-  $(".add-category-item").on("click", function() {
+  $addCategoryItem.on("click", function() {
     var category = prompt('New Category Name');
     if (category !== null) {
       if (category !== '') {
         category = category[0].toUpperCase() + category.slice(1);
         $(".content-row select").append(`<option value="${category.toLowerCase()}">${category}</option>`);
-        $(".category-list").append(`<div class="category-item" id="${category.toLowerCase()}">${category}</div>`);
+        $categoryContainer.append(`<div class="category-item" id="${category.toLowerCase()}">${category}</div>`);
       } else {
         console.log('Category is NULL')
       }
@@ -141,9 +155,9 @@ $(document).ready(function() {
   Category Button Functianality
   Clicking on a category opens the list of items contained within that category
   */
-  $(".category-list").on('click', '.category-item', function(event){
-    var $categoryList = $(".category-list");
-    var eventCategoryName = event.target.id
+  $categoryRow.on('click', '.category-item', function(event){
+    var eventCategoryName = event.target.id;
+    console.log(eventCategoryName);
     $categoryList.html(`<div class="${eventCategoryName}" text-align="center"><h2>${eventCategoryName}</h2></div>`);
   });
 
@@ -153,10 +167,10 @@ $(document).ready(function() {
   Enlarges font size by .15em on hover and returns to original on complete
   POSSIBLE IDEA: Change bg color/opacity
   */
-  $(".category-list").on("mouseover", ".category-item, .add-category-item", function() {
+  $categoryRow.on("mouseover", ".category-item, .add-category-item", function() {
     if (!$(this).hasClass('animated')) { 
       $(this).dequeue().stop().animate({ 
-        fontSize: "1.15em"
+        fontSize: "1.15em",
       }, "300", "swing", function() {
         $(this).addClass('animated').animate({ 
           fontSize: "1em" 
@@ -173,8 +187,14 @@ $(document).ready(function() {
   X button at the top right of the category title. On click returns user
   back to the category list
   */
-  $(".category-container").on('click', '#test', function() {
-    console.log('test')
+  $categoryDisplay.on('click', '#close', function() {
+    $categoryRow.html(`
+    <div class="category-container">
+    <div class="add-category-item" id="add-category">Add Category</div>
+    <div class="category-item" id="books">Books</div>
+    <div class="category-item" id="recipes">Recipes</div>
+    <div class="category-item" id="movies">Movies</div>
+    <div class="category-item" id="restaurants">Restaurants</div>`);
   });
 
 
