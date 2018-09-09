@@ -70,7 +70,7 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 - [3] implement jQuery-color for animations (https://github.com/jquery/jquery-color)
 
 ## complex features
-- [8] search auto completes (search/filter on keyup/keydown)
+- [8] search auto completes (search/filter on keyup/keydown) (https://github.com/devbridge/jQuery-Autocomplete)
 - [9] item input and search as one form (app detects if new item or already exists)
 - [8] pagination/infinity scroll (if more than 10 show a next button)
 - [5] reminders 
