@@ -6,6 +6,8 @@ Storage.prototype.getObject = function(key) {
   return JSON.parse(this.getItem(key));
 }
 
+var categoryList = []
+
 var Item = function(name, category, description, note) {
   this.name = name;
   this.category = category;
@@ -26,13 +28,18 @@ var searchLocalStorage = function(term) {
 
 
 $(document).ready(function() {
+
+  /* 
+  Search bar functionality
+  Both on individual keypress (realtime search) and on enter
+  */
+
   $("input.search-bar").on('keyup', function(event) {
     var $searchVal = $("input.search-bar").val();
     if (searchLocalStorage($searchVal) !== false) {
       console.log(localStorage.getObject(searchLocalStorage($searchVal)));
     }
   });
-
 
   $("input.search-bar").on('keypress', function(event) {
     var key = event.which;
@@ -41,6 +48,12 @@ $(document).ready(function() {
       console.log(localStorage.getObject(searchLocalStorage($searchVal)));
     }
   });
+
+
+  /*
+  Add Item Button
+  Adds Item in localStorage as an object.
+  */
 
   $(".add-text-btn").on("click", function(){
     // store values
@@ -56,18 +69,28 @@ $(document).ready(function() {
     $(".user-input-title").val("");
     $(".user-input-desc").val("");
 
-    console.log('key: value', inputKey, inputDesc, inputCategory);
+    console.log('Item Stored in localStorage: ', inputKey, inputDesc, inputCategory);
     
     var item = new Item(inputKey, inputCategory, inputDesc);
     //localStorage.setItem(inputKey, inputDesc);
     localStorage.setObject(inputKey, item);
-    // data-
+
+
+    // Confirmation of Item Added to List
     let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Added: ${inputKey}</div>`;
     $(".display").html(itemHtml);
-    //console.log(localStorage);
+    
     // how can we delegate this event to the outer html node?
     // https://learn.jquery.com/events/event-delegation/
 
+
+
+    /*
+    Do we still want this functionality? Possible hover over/click brings up options
+    including delete, but also edit.
+
+    NOTE: Item display now moved into particular category
+    */
     $(".display-item").on("click", function(e){
       // plop the key:value back into the input boxes
 
@@ -83,30 +106,23 @@ $(document).ready(function() {
 
   });
 
-   // TODO add back in later
-   // $(".user-input").on("keyup", function(){
-   //   let inputDesc = $(".user-input").val();
-   //   localStorage.setItem("testStorage", inputDesc);
-   //   $(".display").text(localStorage.getItem("testStorage"));
-   // });
 
-   $(".del-text-btn").on("click", function() {
-     alert('item deleted? check the console'); // maybe change to a window.confirm
-     localStorage.removeItem( $('.user-input-title').val() ); // grab the title and plop here
-     $(".user-input-title").val("");
-     $(".user-input-desc").val("");
+  /*
+  REMOVED: Delete Button
 
-     // clearing display? what if I have multiple items?
-     // after item is removed from local storage, redisplay items from local storage
-     // refresh from storage?
+  $(".del-text-btn").on("click", function() {
+    alert('item deleted? check the console'); // maybe change to a window.confirm
+    localStorage.removeItem( $('.user-input-title').val() ); // grab the title and plop here
+    $(".user-input-title").val("");
+    $(".user-input-desc").val("");
+  });
+  */
 
-   });
 
-   // iterative approach to adding items
-   // store data as stringified array of objects
-   // store data with individual keys
-  // how do we get keys? research Object.keys
-
+  /*
+  Add Category Button Functionality
+  Prompts users to create a new catgeory and appends it to the end of the category list 
+  */
   $(".add-category-item").on("click", function() {
     var category = prompt('New Category Name');
     if (category !== null) {
@@ -120,12 +136,23 @@ $(document).ready(function() {
     }
   });
 
-  $(".category-item").on('mouseover', function(event){
-    //console.log(event);
-    // var $categoryName = $(`#${event.target.id}`);
-    // $categoryName.css()
+
+  /*
+  Category Button Functianality
+  Clicking on a category opens the list of items contained within that category
+  */
+  $(".category-list").on('click', '.category-item', function(event){
+    var $categoryList = $(".category-list");
+    var eventCategoryName = event.target.id
+    $categoryList.html(`<div class="${eventCategoryName}" text-align="center"><h2>${eventCategoryName}</h2></div>`);
   });
 
+
+  /*
+  Hover over animation for category items
+  Enlarges font size by .15em on hover and returns to original on complete
+  POSSIBLE IDEA: Change bg color/opacity
+  */
   $(".category-list").on("mouseover", ".category-item, .add-category-item", function() {
     if (!$(this).hasClass('animated')) { 
       $(this).dequeue().stop().animate({ 
@@ -139,4 +166,16 @@ $(document).ready(function() {
       })
     }
   });
+
+
+  /*
+  Category Container Close Button
+  X button at the top right of the category title. On click returns user
+  back to the category list
+  */
+  $(".category-container").on('click', '#test', function() {
+    console.log('test')
+  });
+
+
 });
