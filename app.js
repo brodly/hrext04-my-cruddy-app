@@ -13,40 +13,38 @@ var Item = function(name, category, description, note) {
   this.note = note;
 }
 
-function search(a, b) {
-  console.log(a, b)
-  var a = a;
-  var b = new RegExp("\\b" + a + "\\b");
-  console.log(b);
-  var result = a.match(b);
-  return result;
+var searchLocalStorage = function(term) {
+  console.log(typeof term);
+  for (var i of Object.keys(localStorage)) {
+    if (i.replace(/\s+/g, '').toLowerCase() === term.replace(/\s+/g, '').toLowerCase()) {
+      return i;
+    } else {
+      return false;
+    }
+  }
 }
 
 
 $(document).ready(function() {
   $("input.search-bar").on('keyup', function(event) {
-    //console.log(event.which);
+    var $searchVal = $("input.search-bar").val();
+    if (searchLocalStorage($searchVal) !== false) {
+      console.log(localStorage.getObject(searchLocalStorage($searchVal)));
+    }
   });
 
 
   $("input.search-bar").on('keypress', function(event) {
     var key = event.which;
     var $searchVal = $("input.search-bar").val();
-    var result = localStorage.getItem($searchVal);
-    
-    //result.toLowerCase();
-    if (key == 13) {
-      if (search($searchVal, result)) {
-        console.log(result + ' returned')
-      } else {
-        console.log('item not found')
-      }
+    if (key === 13) {
+      console.log(localStorage.getObject(searchLocalStorage($searchVal)));
     }
   });
 
   $(".add-text-btn").on("click", function(){
     // store values
-    let inputKey = $(".user-input-title").val();
+    let inputKey = $(".user-input-title").val().replace(/\s+/g, '').toLowerCase();
     let inputDesc = $(".user-input-desc").val();
     let inputCategory = $("select").val();
 
