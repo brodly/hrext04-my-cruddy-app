@@ -47,6 +47,13 @@ header {
   width: 800px;
 }
 
+.search-row {
+  margin-bottom: 5px;
+  padding: 8px;
+  border: 1px solid rgb(255, 0, 149);
+  height: 40px;
+}
+
 .content-row {
   margin-bottom: 5px;
   padding: 15px;

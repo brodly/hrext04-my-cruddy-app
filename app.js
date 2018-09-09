@@ -1,18 +1,42 @@
+Storage.prototype.setObject = function(key, value) {
+  this.setItem(key, JSON.stringify(value));
+}
+
+Storage.prototype.getObject = function(key) {
+  return JSON.parse(this.getItem(key));
+}
+
+var Item = function(name, category, description, note) {
+  this.name = name;
+  this.category = category;
+  this.description = description;
+  this.note = note;
+}
+
+
 $(document).ready(function() {
 
   $(".add-text-btn").on("click", function(){
-
     // store values
     let inputKey = $(".user-input-title").val();
     let inputValue = $(".user-input-body").val();
+    let inputCategory = $("select").val();
 
-    // clear values
+    if (inputCategory === null) {
+      inputCategory = 'unsorted';
+    }
+
+    // clear form values
     $(".user-input-title").val("");
     $(".user-input-body").val("");
 
-    console.log(inputKey, inputValue);
-
-    localStorage.setItem(inputKey, inputValue);
+    console.log('key: value', inputKey, inputValue, inputCategory);
+    
+    var test = new Item(inputKey, 'book', inputCategory);
+    console.log(test);
+    //localStorage.setObject('test book', {name: 'Catcher In The Rye', category: 'books'})
+    //localStorage.setItem(inputKey, inputValue);
+    localStorage.setObject(inputKey, test);
     // data-
     let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Title: ${inputKey} Body: ${localStorage.getItem(inputKey)}</div>`;
     $(".display").html(itemHtml);
@@ -25,7 +49,8 @@ $(document).ready(function() {
 
       // get the values from the the divs?
       console.log("key=> ", e.target.dataset.storageKey); // user-input-title
-      localStorage.getItem(e.target.dataset.storageKey); // user-input-body
+      var test = localStorage.getItem(e.target.dataset.storageKey); // user-input-body
+      console.log(JSON.parse(test));
 
       // set those values in the form fields
       $(".user-input-title").val(e.target.dataset.storageKey);
@@ -77,17 +102,17 @@ $(document).ready(function() {
     // $categoryName.css()
   });
 
-  $(".category-item, .add-category-item").hover(function(){
-    if (!$(this).hasClass('animated')) {
+  $(".category-list").on("mouseover", ".category-item, .add-category-item", function() {
+    if (!$(this).hasClass('animated')) { 
       $(this).dequeue().stop().animate({ 
-        fontSize: "1.25em", 
-      });
+        fontSize: "1.15em"
+      }, "300", "swing", function() {
+        $(this).addClass('animated').animate({ 
+          fontSize: "1em" 
+        }, "500", "swing", function() {
+          $(this).removeClass('animated').dequeue();
+        });
+      })
     }
-  }, function() {
-      $(this).addClass('animated').animate({  
-        fontSize: "1em" 
-      }, "slow", "linear", function() {
-      $(this).removeClass('animated').dequeue();
-    });
   });
 });

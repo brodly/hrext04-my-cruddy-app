@@ -22,12 +22,15 @@
       </div>
       
       <div class="main-column">
+        <div class="search-row">
+          <input type="text" class="search-bar" placeholder="Search...">
+        </div>
         <div class="content-row">
           <input type="text" class="user-input-title" placeholder="Item Name">
-          <input class="user-input-body" placeholder="Item Description"></input>
+          <input class="user-input-body" placeholder="Item Description">
           <select>
               <option value="" disabled="disabled" selected="selected">Select a category</option>
-              <option value="">Add New Category</option>
+              <option value="">Add Category</option>
               <option disabled="disabled">----</option>
               <option value="books">Books</option>
               <option value="recipes">Recipes</option>
@@ -43,7 +46,7 @@
 
         <div class="category-row">
           <div class="category-list">
-            <div class="add-category-item" id="add-category">Add New Category</div>
+            <div class="add-category-item" id="add-category">Add Category</div>
             <div class="category-item" id="books">Books</div>
             <div class="category-item" id="recipes">Recipes</div>
             <div class="category-item" id="movies">Movies</div>
