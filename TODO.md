@@ -63,9 +63,11 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 - [2] add timestamps to each item
   - [2] format with moments.js
 - [2] mouse over items for more detail
-- [3] user can add image to represent categories/items
+- [3] pull category images from flickr
+  - [3] user can add image to represent categories/items
 - [3] set item importance/priority
   - [2] color code priority
+- [3] implement jQuery-color for animations (https://github.com/jquery/jquery-color)
 
 ## complex features
 - [8] search auto completes (search/filter on keyup/keydown)
