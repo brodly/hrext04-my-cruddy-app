@@ -13,23 +13,41 @@ var Item = function(name, category, description, note) {
   this.note = note;
 }
 
+function search(a, b) {
+  console.log(a, b)
+  var a = a;
+  var b = new RegExp("\\b" + a + "\\b");
+  console.log(b);
+  var result = a.match(b);
+  return result;
+}
+
+
 $(document).ready(function() {
   $("input.search-bar").on('keyup', function(event) {
-    console.log(event.which);
+    //console.log(event.which);
   });
 
 
   $("input.search-bar").on('keypress', function(event) {
     var key = event.which;
+    var $searchVal = $("input.search-bar").val();
+    var result = localStorage.getItem($searchVal);
+    
+    //result.toLowerCase();
     if (key == 13) {
-      console.log('Enter for search');
+      if (search($searchVal, result)) {
+        console.log(result + ' returned')
+      } else {
+        console.log('item not found')
+      }
     }
   });
 
   $(".add-text-btn").on("click", function(){
     // store values
     let inputKey = $(".user-input-title").val();
-    let inputValue = $(".user-input-body").val();
+    let inputDesc = $(".user-input-desc").val();
     let inputCategory = $("select").val();
 
     if (inputCategory === null) {
@@ -38,17 +56,15 @@ $(document).ready(function() {
 
     // clear form values
     $(".user-input-title").val("");
-    $(".user-input-body").val("");
+    $(".user-input-desc").val("");
 
-    console.log('key: value', inputKey, inputValue, inputCategory);
+    console.log('key: value', inputKey, inputDesc, inputCategory);
     
-    var test = new Item(inputKey, 'book', inputCategory);
-    console.log(test);
-    //localStorage.setObject('test book', {name: 'Catcher In The Rye', category: 'books'})
-    //localStorage.setItem(inputKey, inputValue);
-    localStorage.setObject(inputKey, test);
+    var item = new Item(inputKey, inputCategory, inputDesc);
+    //localStorage.setItem(inputKey, inputDesc);
+    localStorage.setObject(inputKey, item);
     // data-
-    let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Title: ${inputKey} Body: ${localStorage.getItem(inputKey)}</div>`;
+    let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Added: ${inputKey}</div>`;
     $(".display").html(itemHtml);
     //console.log(localStorage);
     // how can we delegate this event to the outer html node?
@@ -59,20 +75,20 @@ $(document).ready(function() {
 
       // get the values from the the divs?
       console.log("key=> ", e.target.dataset.storageKey); // user-input-title
-      var test = localStorage.getItem(e.target.dataset.storageKey); // user-input-body
+      var test = localStorage.getItem(e.target.dataset.storageKey); // user-input-desc
       console.log(JSON.parse(test));
 
       // set those values in the form fields
       $(".user-input-title").val(e.target.dataset.storageKey);
-      $(".user-input-body").val(localStorage.getItem(e.target.dataset.storageKey));
+      $(".user-input-desc").val(localStorage.getItem(e.target.dataset.storageKey));
     });
 
   });
 
    // TODO add back in later
    // $(".user-input").on("keyup", function(){
-   //   let inputValue = $(".user-input").val();
-   //   localStorage.setItem("testStorage", inputValue);
+   //   let inputDesc = $(".user-input").val();
+   //   localStorage.setItem("testStorage", inputDesc);
    //   $(".display").text(localStorage.getItem("testStorage"));
    // });
 
@@ -80,7 +96,7 @@ $(document).ready(function() {
      alert('item deleted? check the console'); // maybe change to a window.confirm
      localStorage.removeItem( $('.user-input-title').val() ); // grab the title and plop here
      $(".user-input-title").val("");
-     $(".user-input-body").val("");
+     $(".user-input-desc").val("");
 
      // clearing display? what if I have multiple items?
      // after item is removed from local storage, redisplay items from local storage

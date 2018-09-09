@@ -17,6 +17,8 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 - [√] select item for delete
   - [ ] confirm delete box
 - [√] a form!
+- [ ] search bar
+- [ ] items should be objects
 
 ### UI/UX
 - [ ] Confirmation of delete/update
