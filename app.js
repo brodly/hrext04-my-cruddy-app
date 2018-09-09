@@ -13,8 +13,18 @@ var Item = function(name, category, description, note) {
   this.note = note;
 }
 
-
 $(document).ready(function() {
+  $("input.search-bar").on('keyup', function(event) {
+    console.log(event.which);
+  });
+
+
+  $("input.search-bar").on('keypress', function(event) {
+    var key = event.which;
+    if (key == 13) {
+      console.log('Enter for search');
+    }
+  });
 
   $(".add-text-btn").on("click", function(){
     // store values

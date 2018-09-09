@@ -1,6 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
-* { box-sizing: border-box; }
+* { 
+  box-sizing: border-box; 
+}
 
 body { 
   font-family: 'Open Sans', sans-serif;
@@ -8,10 +10,10 @@ body {
 }
 
 .main {
-	padding: 5px;
-	max-width: 960px;
-	width: 95%;
-	margin: 20px auto;
+  padding: 5px;
+  max-width: 960px;
+  width: 95%;
+  margin: 20px auto;
 }
 
 header {
@@ -21,9 +23,9 @@ header {
 }
 
 .column-section {
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: space-around;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
   margin: 5px 0;
   padding: 20px;
   border: solid 1px maroon;
@@ -32,7 +34,7 @@ header {
 
 .outer-column {
   flex: 1;
-	border: 1px solid pink;
+  border: 1px solid pink;
   padding: 10px;
 	/* &:first-child { margin-left: 0; }
 	&:last-child { margin-right: 0; } */
@@ -40,7 +42,7 @@ header {
 
 .main-column {
   text-align: center;
-	border: 1px solid yellow;
+  border: 1px solid yellow;
   margin-left: 5px;
   margin-right: 5px;
   padding: 10px;
@@ -51,8 +53,23 @@ header {
   margin-bottom: 5px;
   padding: 8px;
   border: 1px solid rgb(255, 0, 149);
-  height: 40px;
+  /* height: 100px; */
 }
+
+input.search-bar {
+  width: 100%;
+  height: 50px;
+  font-size: 1.5em;
+  font-family: 'Open Sans', sans-serif;
+  text-indent: 40px;
+  color: gray;
+  border: 1px solid lightgray;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  background-position-y: 5px;
+  /* padding-right: 10px; */
+}
+
 
 .content-row {
   margin-bottom: 5px;
