@@ -157,8 +157,16 @@ $(document).ready(function() {
   */
   $categoryRow.on('click', '.category-item', function(event){
     var eventCategoryName = event.target.id;
-    console.log(eventCategoryName);
-    $categoryList.html(`<div class="${eventCategoryName}" text-align="center"><h2>${eventCategoryName}</h2></div>`);
+    $categoryRow.html(`
+    <div class="category-display" id="books">
+    <div id="title">${eventCategoryName}</div><div id="close">X</div>
+    <div class="category-list">
+      <div class="item" id="catcher-in-the-rye">Catcher In The Rye</div>
+      <div class="item" id="the-bible">The Bible</div>
+      <div class="item" id="meditations">Meditations</div>
+    </div>
+  </div>
+    `);
   });
 
 
@@ -187,7 +195,7 @@ $(document).ready(function() {
   X button at the top right of the category title. On click returns user
   back to the category list
   */
-  $categoryDisplay.on('click', '#close', function() {
+  $categoryRow.on('click', '#close', function() {
     $categoryRow.html(`
     <div class="category-container">
     <div class="add-category-item" id="add-category">Add Category</div>
