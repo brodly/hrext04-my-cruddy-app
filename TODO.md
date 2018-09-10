@@ -11,6 +11,7 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 # Detail Todo
 ### Front End
 - [√] display items
+  - [ ] display items in respected categories
 - [ ] remove items from display
 - [√] enter new item
 - [√] select item for edit
@@ -18,7 +19,11 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
   - [ ] confirm delete box
 - [√] a form!
 - [ ] search bar
-- [ ] items should be objects
+- [√] items should be objects
+
+### Backend
+- [ ] Put categoryList into Local Storage
+- [ ] Refactor category input code to append new categories to categoryList array
 
 ### UI/UX
 - [ ] Confirmation of delete/update
@@ -50,9 +55,9 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 ## basic features
 - [5] search form at top
 - [2] input item form under search
-  - [2] adding items has dropdown list with general categories
-  - [2] + button to add new category
-- [5] categories to hold specific items below input
+  - [√] adding items has dropdown list with general categories
+  - [√] + button to add new category
+- [√] categories to hold specific items below input
   - grid based layout 3 x 4 (3 across/infinte down?)
 - [3] edit items
 - [2] secret corgi easter egg when user added corgi to specific category

@@ -31,8 +31,8 @@
           <input type="text" class="user-input-title" placeholder="Item Name">
           <input type="text" class="user-input-desc" placeholder="Item Description">
           <select>
-              <option value="" disabled="disabled" selected="selected">Select a category</option>
-              <option value="">+</option>
+              <option value="select-category" disabled="disabled" selected="selected">Select a category</option>
+              <option value="add-category">Add Category</option>
               <option disabled="disabled">----</option>
               <option value="books">Books</option>
               <option value="recipes">Recipes</option>
@@ -47,15 +47,15 @@
 
         <div class="category-row">
 
-          <!-- <div class="category-container">
-            <div class="add-category-item" id="add-category">Add Category</div>
+          <div class="category-container">
+            <div class="add-category-item" id="add-category">+</div>
             <div class="category-item" id="books">Books</div>
             <div class="category-item" id="recipes">Recipes</div>
             <div class="category-item" id="movies">Movies</div>
             <div class="category-item" id="restaurants">Restaurants</div> 
-          </div>  -->
+          </div> 
 
-          <div class="category-display" id="books">
+          <!-- <div class="category-display" id="books">
             <div id="title">Books</div>
             <div id="close">X</div>
 
@@ -64,7 +64,7 @@
               <div class="item" id="the-bible">The Bible</div>
               <div class="item" id="meditations">Meditations</div>
             </div>
-          </div>
+          </div> -->
 
         </div>
 

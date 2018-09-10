@@ -83,11 +83,10 @@ input.search-bar {
 }
 
 input.user-input-title, input.user-input-desc, select, button.add-text-btn {
-  height: 25px;
+  height: 30px;
   text-align: center;
   font-family: 'Open Sans', sans-serif;
-  /* color: gray; */
-  border: 1px solid lightgray;
+  border: 1px solid;
 }
 
 .category-row {
@@ -143,7 +142,7 @@ div#close {
 }
 
 .category-item {
-  border: solid 1px grey;
+  border: solid 1.5px grey;
   background: lightgrey;
   opacity: .75;
 }

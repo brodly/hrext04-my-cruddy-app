@@ -6,7 +6,8 @@ Storage.prototype.getObject = function(key) {
   return JSON.parse(this.getItem(key));
 }
 
-var categoryList = []
+var categoryList = ['books', 'recipes', 'movies', 'restaurants']
+localStorage.setObject('categoryList', categoryList);
 
 var Item = function(name, category, description, note) {
   this.name = name;
@@ -144,9 +145,10 @@ $(document).ready(function() {
   Prompts users to create a new catgeory and appends it to the end of the category list 
   */
   $categoryRow.on("click", ".add-category-item", function() {
-    var category = prompt('New Category Name');
+    var category = prompt('Category Name');
     if (category !== null) {
       if (category !== '') {
+        categoryList.push(category.toLowerCase())
         category = category[0].toUpperCase() + category.slice(1);
         $(".content-row select").append(`<option value="${category.toLowerCase()}">${formatString(category)}</option>`);
         $(".category-container").append(`<div class="category-item" id="${category.toLowerCase()}">${formatString(category)}</div>`);
@@ -199,11 +201,6 @@ $(document).ready(function() {
     }
   }, ".category-item");
     
-    
-  //   "mouseenter", ".category-item", , 
-  //   }
-  // });
-
   $categoryRow.on({
     mouseenter: function() {
       if (!$(this).hasClass('animated')) { 
@@ -228,13 +225,10 @@ $(document).ready(function() {
   back to the category list
   */
   $categoryRow.on('click', '#close', function() {
-    $categoryRow.html(`
-    <div class="category-container">
-    <div class="add-category-item" id="add-category">+</div>
-    <div class="category-item" id="books">Books</div>
-    <div class="category-item" id="recipes">Recipes</div>
-    <div class="category-item" id="movies">Movies</div>
-    <div class="category-item" id="restaurants">Restaurants</div>`);
+    $categoryRow.html('').append('<div class="category-container"><div class="add-category-item" id="add-category">+</div>')
+    for (var e of categoryList) {
+      $(".category-container").append(`<div class="category-item" id="${e.toLowerCase()}">${formatString(e)}</div>`)
+    }
   });
 
 
