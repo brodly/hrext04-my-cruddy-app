@@ -15,14 +15,14 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 - [ ] remove items from display
 - [√] enter new item
 - [√] select item for edit
-- [√] select item for delete
+- [ ] select item for delete
   - [ ] confirm delete box
 - [√] a form!
 - [ ] search bar
 - [√] items should be objects
 
 ### Backend
-- [ ] Put categoryList into Local Storage
+- [√] Put categoryList into Local Storage
 - [ ] Refactor category input code to append new categories to categoryList array
 
 ### UI/UX
@@ -46,21 +46,30 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 # Feature list
 ### Difficulty Scale (from 1 to 10 )
  2.5 days === 20 hours
-- 1 = finished 
+- 1 = finished/simple to complete 
 - 2 = 1 hour
 - 5 = 3 hours
 - 7 = 5 hours
 - 10 = full day+
 
 ## basic features
-- [5] search form at top
-- [2] input item form under search
+- [3] Populate index.html on first load with new items and categories 
+- [4] search form at top
+- [√] input item form under search
   - [√] adding items has dropdown list with general categories
   - [√] + button to add new category
 - [√] categories to hold specific items below input
-  - grid based layout 3 x 4 (3 across/infinte down?)
+  - [√] grid based layout 3 x 4 (3 across/infinte down?)
+- [3] Category page needs to be dynamic   
 - [3] edit items
-- [2] secret corgi easter egg when user added corgi to specific category
+  - [ ] hover over edit options
+- [ ] populate dropdown category from category array  
+- [2] fully delete category
+  - [1] button for delete
+  - [√] delete from dropdown list
+  - [1] what to do with items in a deleted category?? 
+
+- [2] secret corgi easter egg when user added corgi to specific category  
 
 ## advanced features
 - [3] select and delete multiple items (highlight/checkbox?)
