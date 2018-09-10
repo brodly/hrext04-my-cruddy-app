@@ -1,3 +1,6 @@
+/*
+Update Storage Prototype to accept Objects
+*/
 Storage.prototype.setObject = function(key, value) {
   this.setItem(key, JSON.stringify(value));
 }
@@ -6,16 +9,31 @@ Storage.prototype.getObject = function(key) {
   return JSON.parse(this.getItem(key));
 }
 
-var categoryList = ['books', 'recipes', 'movies', 'restaurants']
+
+/* 
+Category List
+*/
+var categoryList = ['books', 'recipes', 'movies', 'restaurants', 'website'];
 localStorage.setObject('categoryList', categoryList);
 
+/* 
+Item Class Prototype
+*/
 var Item = function(name, category, description, note) {
   this.name = name;
   this.category = category;
   this.description = description;
   this.note = note;
-}
+};
 
+
+/*
+Functions
+*/
+
+/*
+Searches Local Storage for matching Item Object and returns if found
+*/
 var searchLocalStorage = function(term) {
   console.log(typeof term);
   for (var i of Object.keys(localStorage)) {
@@ -25,18 +43,52 @@ var searchLocalStorage = function(term) {
       return false;
     }
   }
-}
+};
 
+/* 
+Formats String to Titlecase
+-Beginning of each word is uppercase and the rest of the word is lowercase
+i.e Website, Toy Story, This Is My House
+*/
 var formatString = function(string) {
   return string.replace(/(^|\s)[a-z]/g, function(f) {
     return f.toUpperCase();
   })
 };
 
+/*
+Updates categoryList with string when user adds a new category
+*/
+var pushToCategoryList = function(category) {
+  if (!categoryList.includes(category)) {
+    categoryList.push(category);
+    localStorage.setObject("categoryList", categoryList);
+    return true;
+  } else {
+    alert(category + ' already exists!')
+  }
+};
 
+/*
+Removes category string from categoryList
+*/
+var popFromCategoryList = function(category) {
+  if (categoryList.includes(category)) {
+    var index = categoryList.indexOf(category);
+    if (index > -1) {
+      categoryList.splice(index, 1);
+      localStorage.setObject('categoryList', categoryList);
+      alert(category + " removed category")
+    }
+  }
+};
+
+/* 
+jQuery Begins
+*/
 $(document).ready(function() {
   /*
-  jQuery selector variables
+  Selector variables
   */
   var $inputSearchBar = $("input.search-bar");
   var $addTextBtn = $(".add-text-btn");
@@ -49,12 +101,10 @@ $(document).ready(function() {
   var $categoryList = $(".category-list");
   var $categoryDisplay = $(".category-display");
 
-
   /* 
   Search bar functionality
   Both on individual keypress (realtime search) and on enter
   */
-
   $inputSearchBar.on('keyup', function(event) {
     var $searchVal = $inputSearchBar.val();
     if (searchLocalStorage($searchVal) !== false) {
@@ -75,7 +125,6 @@ $(document).ready(function() {
   Add Item Button
   Adds Item in localStorage as an object.
   */
-
   $addTextBtn.on("click", function(){
     // store values
     let inputKey = $userInputTitle.val().replace(/\s+/g, '').toLowerCase();
@@ -98,8 +147,13 @@ $(document).ready(function() {
 
 
     // Confirmation of Item Added to List
-    let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Added: ${inputKey}</div>`;
+    let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Added to Local Storage: ${inputKey}</div>`;
     $(".display").html(itemHtml);
+    $(".display").fadeTo("4000", ".75");
+    setTimeout(function(){
+      return $(".display").fadeTo("5000", "0");
+    }, 5000);
+  
     
     // how can we delegate this event to the outer html node?
     // https://learn.jquery.com/events/event-delegation/
@@ -148,12 +202,13 @@ $(document).ready(function() {
     var category = prompt('Category Name');
     if (category !== null) {
       if (category !== '') {
-        categoryList.push(category.toLowerCase())
-        category = category[0].toUpperCase() + category.slice(1);
-        $(".content-row select").append(`<option value="${category.toLowerCase()}">${formatString(category)}</option>`);
-        $(".category-container").append(`<div class="category-item" id="${category.toLowerCase()}">${formatString(category)}</div>`);
+        if (pushToCategoryList(category.toLowerCase())) { 
+          category = category[0].toUpperCase() + category.slice(1);
+          $(".content-row select").append(`<option value="${category.toLowerCase()}">${formatString(category)}</option>`);
+          $(".category-container").append(`<div class="category-item" id="${category.toLowerCase()}">${formatString(category)}</div>`);
+        }
       } else {
-        console.log('Category is NULL')
+        console.log('Category is EMPTY/NULL')
       }
     }
   });
@@ -164,17 +219,24 @@ $(document).ready(function() {
   Clicking on a category opens the list of items contained within that category
   */
   $categoryRow.on('click', '.category-item', function(event){
-    var eventCategoryName = event.target.id;
-    $categoryRow.html(`
-    <div class="category-display" id="books">
-    <div id="title">${formatString(eventCategoryName)}</div><div id="close">X</div>
-    <div class="category-list">
-      <div class="item" id="catcher-in-the-rye">Catcher In The Rye</div>
-      <div class="item" id="the-bible">The Bible</div>
-      <div class="item" id="meditations">Meditations</div>
-    </div>
-  </div>
-    `);
+    var categoryName = event.target.id;
+    //Remove Category from list functionality
+    popFromCategoryList(categoryName);
+    $(`.category-item#${categoryName}`).remove();
+    $(`select option#${categoryName}`).remove();
+   
+
+    //Enter Category Page Functionality || THIS IS STATIC
+    // $categoryRow.html(`
+    //   <div class="category-display" id="books">
+    //   <div id="title">${formatString(categoryName)}</div><div id="close">X</div>
+    //     <div class="category-list">
+    //       <div class="item" id="catcher-in-the-rye">Catcher In The Rye</div>
+    //       <div class="item" id="the-bible">The Bible</div>
+    //       <div class="item" id="meditations">Meditations</div>
+    //     </div>
+    //   </div>
+    // `);
   });
 
 
@@ -230,6 +292,5 @@ $(document).ready(function() {
       $(".category-container").append(`<div class="category-item" id="${e.toLowerCase()}">${formatString(e)}</div>`)
     }
   });
-
 
 });

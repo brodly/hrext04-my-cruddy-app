@@ -45,16 +45,12 @@ header {
 .main-column {
   text-align: center;
   border: 1px solid yellow;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 5px;
   padding: 10px;
   width: 800px;
 }
 
 .search-row {
-  margin-bottom: 5px;
-  padding: 8px;
-  border: 1px solid rgb(255, 0, 149);
   /* height: 100px; */
 }
 
@@ -64,22 +60,42 @@ input.search-bar {
   font-size: 1.75em;
   font-family: 'Open Sans', sans-serif;
   text-indent: 40px;
-  /* color: gray; */
   border: 1px solid lightgray;
   background-repeat: no-repeat;
   background-size: 40px 40px;
   background-position-y: 5px;
-  /* padding-right: 10px; */
 }
 
 .content-row {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: space-around;
+  margin-top: 5px;
   margin-bottom: 5px;
   padding: 10px;
   border: 1px solid blue;
   height: 100 px;
+}
+
+.input {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  /* border: 1px solid red; */
+  margin-bottom: 5px;
+  padding-left: 25px;
+  padding-right: 25px;
+  width: 100%;
+}
+
+.display {
+  text-align: center;
+  margin: auto;
+  width: 50%;
+  height: 22px;
+  border: 1px dotted gold;
+  background: lightyellow;
+  opacity: 0;
 }
 
 input.user-input-title, input.user-input-desc, select, button.add-text-btn {
@@ -91,7 +107,6 @@ input.user-input-title, input.user-input-desc, select, button.add-text-btn {
 
 .category-row {
   text-align: center;
-  margin: auto;
   border: solid 1px green;
   padding: 20px;
 }
