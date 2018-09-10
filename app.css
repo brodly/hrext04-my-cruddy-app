@@ -1,3 +1,52 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 * { 
@@ -19,8 +68,9 @@ body {
 
 header {
   width: 100%;
-  padding: 0 15px;
-  border: solid 1px orange;
+  padding: 20px;
+  border: solid 1px grey;
+  font-size: 3em;
 }
 
 .column-section {
@@ -29,13 +79,13 @@ header {
   justify-content: space-around;
   margin: 5px 0;
   padding: 20px;
-  border: solid 1px maroon;
+  /* border: solid 1px maroon; */
   max-width: 960px;
 }
 
 .outer-column {
   /* flex: 1; */
-  border: 1px solid pink;
+  /* border: 1px solid pink; */
   padding: 10px;
   min-width: 0px
 	/* &:first-child { margin-left: 0; }
@@ -44,14 +94,10 @@ header {
 
 .main-column {
   text-align: center;
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
   margin: 5px;
   padding: 10px;
   width: 800px;
-}
-
-.search-row {
-  /* height: 100px; */
 }
 
 input.search-bar {
@@ -73,8 +119,7 @@ input.search-bar {
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 10px;
-  border: 1px solid blue;
-  height: 100 px;
+  border: 1px solid lightgray;
 }
 
 .input {
@@ -88,6 +133,10 @@ input.search-bar {
   width: 100%;
 }
 
+#spacer-category {
+  color: darkgray;
+}
+
 .display {
   text-align: center;
   margin: auto;
@@ -96,6 +145,7 @@ input.search-bar {
   border: 1px dotted gold;
   background: lightyellow;
   opacity: 0;
+  padding: 2px;
 }
 
 input.user-input-title, input.user-input-desc, select, button.add-text-btn {
@@ -107,11 +157,11 @@ input.user-input-title, input.user-input-desc, select, button.add-text-btn {
 
 .category-row {
   text-align: center;
-  border: solid 1px green;
+  border: solid 1px lightgray;
   padding: 20px;
 }
 
-.category-container, .category-display {
+.category-container, .category-details {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
@@ -119,7 +169,7 @@ input.user-input-title, input.user-input-desc, select, button.add-text-btn {
   margin: auto;
   padding-right: 20px;
   padding-left: 20px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   width: 590px;
 }
 
@@ -148,6 +198,26 @@ div#close {
   border: 1px solid green;
 }
 
+.category-item-options {
+  border: 1px solid slateblue;
+  width: 150px;
+  height: 150px;
+}
+
+.category-item #close-button:hover {
+  opacity: 1;
+}
+
+.category-item #close-button {
+  border: 1px solid green;
+  text-align: center;
+  margin-left: auto;
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+  opacity: 0;
+}
+
 .add-category-item {
   order: 1;
   border: dotted 1.2px;
@@ -164,6 +234,7 @@ div#close {
 
 .category-item:hover, .add-category-item:hover {
   background: lightcyan;
+  cursor: pointer;
 }
 
 .category-item, .add-category-item {
@@ -171,11 +242,11 @@ div#close {
   height: 150px;
   margin: 15px;
   text-align: center;
-  line-height: 150px;
+  line-height: 100px;
   color: black;
 }
 
-.category-list {
+.item-list {
   display: flex;
   flex-flow: column nowrap;
   /* text-align: center; */
@@ -194,8 +265,10 @@ div#close {
 }
 
 footer {
-  padding: 0 15px;
-  border: 1px solid gray;
+  text-align: right;
+  padding: 10px;
+  font-size: 1em;
+  /* border: 1px solid gray; */
 }
 
 

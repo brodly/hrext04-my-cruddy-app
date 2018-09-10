@@ -11,9 +11,9 @@ Storage.prototype.getObject = function(key) {
 
 
 /* 
-Category List
+Defaults
 */
-var categoryList = ['books', 'recipes', 'movies', 'restaurants', 'website'];
+var categoryList = ['Books', 'Recipes', 'Movies', 'Restaurants'];
 localStorage.setObject('categoryList', categoryList);
 
 /* 
@@ -59,34 +59,81 @@ var formatString = function(string) {
 /*
 Updates categoryList with string when user adds a new category
 */
-var pushToCategoryList = function(category) {
+var pushToCategoryArray = function(category) {
   if (!categoryList.includes(category)) {
     categoryList.push(category);
     localStorage.setObject("categoryList", categoryList);
     return true;
   } else {
     alert(category + ' already exists!')
+    return false;
   }
 };
 
 /*
 Removes category string from categoryList
 */
-var popFromCategoryList = function(category) {
+var popFromCategoryArray = function(category) {
   if (categoryList.includes(category)) {
     var index = categoryList.indexOf(category);
     if (index > -1) {
       categoryList.splice(index, 1);
       localStorage.setObject('categoryList', categoryList);
-      alert(category + " removed category")
+      alert(category + " category removed")
     }
   }
 };
+
+/*
+Category List Functions
+*/
+var populateCategoryList = function() {
+  for (var e of categoryList) {
+    $(".category-container").append(`<div class="category-item">${e}</div>`)
+  }
+};
+
+var addToCategoryList = function (category) {
+  $(".category-container").append(`<div class="category-item">${category}</div>`);
+};
+
+var removeFromCategoryList = function(category) {
+  if (categoryList.includes(category)) {
+    $(`.category-item:contains(${category})`).remove();
+  } else {
+    alert(category + ' does not exist!')
+  }
+};
+
+/*
+Category Dropdown Functions
+*/
+var populateCategoryDropdown = function(){
+  for (var e of categoryList) {
+    $("select").append(`<option>${e}</option>`);
+  }
+};
+
+var addToCategoryDropdown = function(category) {
+  $("select").append(`<option>${category}</option>`)
+};
+
+var removeFromCategoryDropdown = function(category) {
+  if (categoryList.includes(category)) {
+    $(`option:contains(${category})`).remove();
+  } else {
+    alert(category + ' does not exist!')
+  }
+};
+
 
 /* 
 jQuery Begins
 */
 $(document).ready(function() {
+  $("select").prop('selectedIndex', '#select-category');
+  populateCategoryList();
+  populateCategoryDropdown();
   /*
   Selector variables
   */
@@ -98,8 +145,8 @@ $(document).ready(function() {
   var $addCategoryItem = $(".add-category-item");
   var $categoryRow = $(".category-row");
   var $categoryContainer = $(".category-container");
-  var $categoryList = $(".category-list");
-  var $categoryDisplay = $(".category-display");
+  var $itemList = $(".item-list");
+  var $categoryDisplay = $(".category-details");
 
   /* 
   Search bar functionality
@@ -127,22 +174,21 @@ $(document).ready(function() {
   */
   $addTextBtn.on("click", function(){
     // store values
-    let inputKey = $userInputTitle.val().replace(/\s+/g, '').toLowerCase();
-    let inputDesc = $userInputDesc.val();
+    let inputKey = formatString($userInputTitle.val());
+    let inputDesc = formatString($userInputDesc.val());
     let inputCategory = $("select").val();
 
     if (inputCategory === null) {
       inputCategory = 'unsorted';
     }
 
-    // clear form values
+    // Clear Item Entry Forms
     $userInputTitle.val("");
     $userInputDesc.val("");
 
     console.log('Item Stored in localStorage: ', inputKey, inputDesc, inputCategory);
     
     var item = new Item(inputKey, inputCategory, inputDesc);
-    //localStorage.setItem(inputKey, inputDesc);
     localStorage.setObject(inputKey, item);
 
 
@@ -202,10 +248,10 @@ $(document).ready(function() {
     var category = prompt('Category Name');
     if (category !== null) {
       if (category !== '') {
-        if (pushToCategoryList(category.toLowerCase())) { 
-          category = category[0].toUpperCase() + category.slice(1);
-          $(".content-row select").append(`<option value="${category.toLowerCase()}">${formatString(category)}</option>`);
-          $(".category-container").append(`<div class="category-item" id="${category.toLowerCase()}">${formatString(category)}</div>`);
+        category = formatString(category);
+        if (pushToCategoryArray(category)) {
+          addToCategoryDropdown(category);
+          addToCategoryList(category);
         }
       } else {
         console.log('Category is EMPTY/NULL')
@@ -219,24 +265,29 @@ $(document).ready(function() {
   Clicking on a category opens the list of items contained within that category
   */
   $categoryRow.on('click', '.category-item', function(event){
-    var categoryName = event.target.id;
+    var category = event.target.innerHTML;
+    
     //Remove Category from list functionality
-    popFromCategoryList(categoryName);
-    $(`.category-item#${categoryName}`).remove();
-    $(`select option#${categoryName}`).remove();
-   
+    removeFromCategoryList(category);
+    removeFromCategoryDropdown(category);
+    popFromCategoryArray(category);
 
     //Enter Category Page Functionality || THIS IS STATIC
     // $categoryRow.html(`
-    //   <div class="category-display" id="books">
-    //   <div id="title">${formatString(categoryName)}</div><div id="close">X</div>
-    //     <div class="category-list">
-    //       <div class="item" id="catcher-in-the-rye">Catcher In The Rye</div>
-    //       <div class="item" id="the-bible">The Bible</div>
-    //       <div class="item" id="meditations">Meditations</div>
+    //   <div class="category-display">
+    //   <div id="title">${categoryName}</div><div id="close">X</div>
+    //     <div class="item-list">
+    //       <div class="item">Catcher In The Rye</div>
+    //       <div class="item">The Bible</div>
+    //       <div class="item">Meditations</div>
     //     </div>
     //   </div>
     // `);
+
+  });
+
+  $("select").on("click", "#add-category", function(){
+    alert('click')
   });
 
 
@@ -288,9 +339,7 @@ $(document).ready(function() {
   */
   $categoryRow.on('click', '#close', function() {
     $categoryRow.html('').append('<div class="category-container"><div class="add-category-item" id="add-category">+</div>')
-    for (var e of categoryList) {
-      $(".category-container").append(`<div class="category-item" id="${e.toLowerCase()}">${formatString(e)}</div>`)
-    }
+    populateCategoryList(); 
   });
 
 });
