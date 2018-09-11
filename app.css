@@ -47,16 +47,13 @@ table {
 	border-spacing: 0;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
-
 * { 
   box-sizing: border-box; 
-  /* color: #666; */
 }
 
 body { 
-  font-family: 'Open Sans', sans-serif;
-  background-color: #FFF8EB;
+  font-family: 'Inconsolata', monospace;
+  background-color: #A39F96;
 }
 
 .main {
@@ -64,20 +61,21 @@ body {
   width: 960px;
   /* max-width: 960px;
   width: 95%; */
-  margin: 0px auto;
+  margin: auto;
 }
 
 header {
   width: 100%;
-  margin: 20px 0 0 0;
+  margin: 20px 0 2px 0;
   padding: 10px;
-  border: solid 0px black;
+  border: solid 1px black;
   font-size: 3em;
   text-indent: 40px;
   background-color: #c53e3e;
-  color: black;
+  color: rgb(31, 26, 26);
   font-weight: 100;
   text-align: left;
+  box-shadow: 1px 1px #1e1c1c;
 }
 
 /*
@@ -87,9 +85,11 @@ Section Between Header and Footer
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin: 0;
+  margin: auto;
   padding: 20px 20px 0 20px;
-  border: solid 0px black;
+  border-width: 0px;
+  border-color: black;
+  border-style: none solid solid;
   max-width: 960px;
   background-color: #A39F96;
 }
@@ -116,7 +116,7 @@ Main Content Column
   border-width: 0px;
   margin: auto;
   padding: 10px 0 10px 0;
-  width: 90%;
+  width: 100%;
   background-color: #A39F96;
 }
 
@@ -135,14 +135,15 @@ input.search-bar {
   width: 90%;
   height: 50px;
   font-size: 1.75em;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Inconsolata', monospace;
   text-indent: 40px;
-  border: 0px solid black;
+  border: 1px solid black;
   background-repeat: no-repeat;
   background-size: 40px 40px;
   background-position-y: 5px;
   background-color: #EDE6E3;
   color: #424141;
+  box-shadow: 1px 1px #1e1c1c;
 }
 
 /*
@@ -169,12 +170,13 @@ Input New Item Row
   justify-content: space-evenly;
   border-style: solid;
   border-color: black;
-  border-width: 0px;
-  margin: auto;
+  border-width: 1px 1px 0px 1px;
+  margin: 10px auto 0;
   /* margin-bottom: 5px; */
   padding: 20px 5px;
   width: 90%;
   background: #8A867F;
+  box-shadow: 1px 0px #1e1c1c;;
 }
 
 /*
@@ -183,8 +185,7 @@ Added To Local Storage Display
 .display {
   text-align: center;
   margin: auto;
-  margin-top: 10px;
-  margin-bottom: 10px; 
+  margin-bottom: 40px; 
   width: 50%;
   height: 22px;
   border: 1px dotted gold;
@@ -192,30 +193,61 @@ Added To Local Storage Display
   opacity: 0;
   padding: 2px;
 }
+ 
+/*
+Input Boxes (Item Name, Description)
+*/
+input.user-input-title, input.user-input-desc {
+  height: 40px;
+  width: 160px;
+  text-align: left;
+  font-size: 1em;
+  font-family: 'Inconsolata', monospace;
+  border: 1px solid black;
+  color: #424141;
+  background-color: #EDE6E3;
+  box-shadow: 1px 1px #1e1c1c;
+  text-indent: 10px;
+}
 
 /*
-Input Boxes (Item Name, Description, Category Dropdown, Add)
+Category Dropdown Box
 */
-input.user-input-title, input.user-input-desc, select, button.add-text-btn {
+select {
   height: 40px;
   width: 160px;
   text-align: center;
-  font-family: 'Open Sans', sans-serif;
-  border: 0px solid black;
+  font-size: 1em;
+  font-family: 'Inconsolata', monospace;
+  border: 1px solid black;
   color: #424141;
   background-color: #EDE6E3;
+  box-shadow: 1px 1px #1e1c1c;
 }
 
-/* button.add-text-btn {
-  margin: 5px;
-  height: 30px;
-  width: 80px;
+/*
+Add Button Hover effect
+*/
+button.add-text-btn:hover {
+  background-color: #c43c3c;
+  cursor: pointer;
+  box-shadow: 4px 5px 1px;
+}
+
+/*
+Add Button
+*/
+button.add-text-btn {
+  height: 40px;
+  width: 100px;
   text-align: center;
-  font-family: 'Open Sans', sans-serif;
-  border: 0px solid black;
-  color: #424141;
-  background-color: #EDE6E3;
-} */
+  font-size: 1em;
+  font-family: 'Inconsolata', monospace;
+  border: 1px solid black;
+  color: #1e1c1c;
+  background-color: rgb(238, 214, 204);
+  box-shadow: 1px 1px #1e1c1c;
+}
 
 /*
 Section below Input boxes and above Footer
@@ -233,11 +265,14 @@ Style for category container (List of all categories)
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  margin: auto;
+  margin: -2px auto;
   padding: 10px 0px 10px 11%;
-  border: 0px solid black;
   width: 90%;
   background-color: #8A867F;
+  box-shadow: 1px 1px #1e1c1c;
+  border-width: 0px 1px 1px 1px; 
+  border-style: solid; 
+  border-color: rgb(34, 32, 32);
 }
 
 /*
@@ -246,51 +281,14 @@ Style for category details (items within categories)
 .category-details {
   display: flex;
   flex-flow: row wrap;
-  /* justify-content: flex-start; */
-  margin: auto;
-  /* padding: 10px 0px 10px 40px; */
-  border: 0px solid black;
+  margin: -2px auto;
   width: 90%;
   background-color: #8A867F;
+  box-shadow: 1px 1px #1e1c1c;
+  border-width: 0px 1px 1px 1px; 
+  border-style: solid; 
+  border-color: rgb(34, 32, 32);
 }
-
-/*
-STYLE FOR HOVER OVER OPTIONS EDIT/DELETE
-*/
-
-/*
-Title/header for Category Box
-*/
-/* .title {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  border: 1px solid green;
-  width: 100%;
-  padding: 10px;
-  margin: 10px;
-} */
-
-/* .category-item-options {
-  border: 1px solid slateblue;
-  width: 150px;
-  height: 150px;
-}
-
-.category-item #close-button:hover {
-  opacity: 1;
-  cursor: pointer;
-}
-
-.category-item #close-button {
-  border: 1px solid green;
-  text-align: center;
-  margin-left: auto;
-  height: 20px;
-  width: 20px;
-  line-height: 20px;
-  opacity: 0;
-} */
 
 /*
 Hover style for category items
@@ -298,38 +296,45 @@ Hover style for category items
 .category-item:hover, .add-category-item:hover {
   background: #c43c3c;
   cursor: pointer;
+  box-shadow: 4px 5px 1px;
+  outline-color: #351212;
 }
 
 /*
 Style for category items
 */
-.category-item, .add-category-item {
+button.category-item, button.add-category-item {
   width: 150px;
   height: 150px;
   margin: 15px;
+  font-size: 1.15em;
   text-align: center;
-  line-height: 150px;
-  color: #1e1c1c;
+  color: #080101;
+  box-shadow: 1.5px 1.5px;
+  font-family: 'Inconsolata', monospace;
 }
+
+/*
 
 /*
 Specific style for add new category button
 */
-.add-category-item {
+button.add-category-item {
   order: 1;
-  border: dotted 0px;
   background: #7a7a7a;
   opacity: .75;
   font-size: 2em;
+  text-align: center;
+  border: 1px dashed rgb(34, 30, 30);
 }
 
 /*
 Specific style for each category
 */
-.category-item {
-  border: solid 0px black;
+button.category-item {
   background: rgba(163, 160, 163, 0.623);
   opacity: .75;
+  border: 1px solid rgb(14, 10, 10);
 }
 
 /*
@@ -381,13 +386,24 @@ Individual item row in category details
 }
 
 footer {
+  width: 960px;
+  margin: auto;
+  padding: 6px;
+  border: solid 1px black;
+  background-color: #928080;
+  color: rgb(31, 26, 26);
   text-align: right;
-  padding: 30px;
-  font-size: 1em;
-  border: 0px solid black;
-  background-color: #A39F96;
-  color: black;
-  text-align: left;
+  box-shadow: 1px 1px #1e1c1c;
+  font-size: .9em;
+}
+
+footer a:hover {
+  color: rgb(134, 37, 37);
+}
+
+footer a {
+  color: rgb(31, 26, 26);
+  text-decoration: none;
 }
 
 

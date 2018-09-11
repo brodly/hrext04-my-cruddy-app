@@ -2,8 +2,12 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="UTF-8">
-    <title>My First CRUD App</title>
+    <title>Collections</title>
     <link rel="stylesheet" href="app.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat');
+    @import url('https://fonts.googleapis.com/css?family=Inconsolata');
+    </style> 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="app.js"></script>
   </head>
@@ -16,47 +20,45 @@
     </header>
         
     <section class="column-section">
-
-      <div class="outer-column">
-        <!-- <h2>Left Border</h2> -->
-      </div>
+      <div class="outer-column"></div>
       
       <div class="main-column">
 
         <div class="search-row">
-          <input type="text" autofocus="autofocus" class="search-bar" style="background-image: url('images/search.png')">
+          <input placeholder="What are you looking for?" type="text" autofocus="autofocus" class="search-bar" style="background-image: url('images/search.png')">
         </div>
 
         <div class="content-row">
+
           <div class="input">
-            <input type="text" class="user-input-title" placeholder="Item Name">
-            <input type="text" class="user-input-desc" placeholder="Item Description">
+            <input type="text" class="user-input-title" placeholder="Name your thing">
+            <input type="text" class="user-input-desc" placeholder="Now describe it">
             <select>
-              <option id="select-category" disabled selected hidden>Select a Category</option>
-              <option id="add-category">Add Category</option>
+              <option id="select-category" disabled selected hidden>Pick a category</option>
+              <option id="add-category">Create A New One</option>
               <option disabled>----</option>
             </select>
-            <button class="add-text-btn">Add</button>
-            <!-- <button class="del-text-btn">delete text</button> -->
+            <button class="add-text-btn">Add it</button>
           </div>
+
           <!-- <div class="display"></div> -->
+
         </div>
 
         <div class="category-row">
           <div class="category-container">
-            <div class="add-category-item" id="add-category">+</div>
+            <button class="add-category-item" id="add-category">+</div>
           </div> 
         </div>
 
       </div>
 
       <div class="outer-column">
-        <!-- <h2>Right Border</h2> -->
       </div>
       
     </section>	
       
-      <footer></footer>
+    <footer>Contact: <a href="mailto:marx.joshua@gmail.com">Email</a> <a href="https://www.twitter.com/joshuasmarx">Twitter</a></footer>
     
     </div>
   </body>

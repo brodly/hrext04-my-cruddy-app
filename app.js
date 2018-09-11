@@ -89,17 +89,17 @@ Category List Functions
 */
 var populateCategoryList = function() {
   for (var e of categoryList) {
-    $(".category-container").append(`<div class="category-item">${e}</div>`)
+    $(".category-container").append(`<button class="category-item">${e}</div>`)
   }
 };
 
 var addToCategoryList = function (category) {
-  $(".category-container").append(`<div class="category-item">${category}</div>`);
+  $(".category-container").append(`<button class="category-item">${category}</div>`);
 };
 
 var removeFromCategoryList = function(category) {
   if (categoryList.includes(category)) {
-    $(`.category-item:contains(${category})`).remove();
+    $(`button.category-item:contains(${category})`).remove();
   } else {
     alert(category + ' does not exist!')
   }
@@ -163,7 +163,7 @@ $(document).ready(function() {
   var $userInputTitle = $(".user-input-title");
   var $userInputDesc = $(".user-input-desc");
   var $displayItem = $(".display-item");
-  var $addCategoryItem = $(".add-category-item");
+  var $addCategoryItem = $("button.add-category-item");
   var $categoryRow = $(".category-row");
   var $categoryContainer = $(".category-container");
   var $itemList = $(".item-list");
@@ -193,8 +193,16 @@ $(document).ready(function() {
   Add Item Button
   Adds Item in localStorage as an object.
   */
+  //Click box shadow effect
+  $addTextBtn.on('mousedown', function() {
+    $(this).css({"box-shadow":"1px 1px"})
+  });
+
   $addTextBtn.on("click", function(){
-    // store values
+    //reset click box shadow effect
+    $(this).css({"box-shadow":""});
+
+    //store values
     let inputKey = formatString($userInputTitle.val());
     let inputDesc = formatString($userInputDesc.val());
     let inputCategory = $("select").val();
@@ -203,15 +211,15 @@ $(document).ready(function() {
       inputCategory = 'unsorted';
     }
 
-    // Clear Item Entry Forms
+    // Clear/Reset Item Entry Forms
     $userInputTitle.val("");
     $userInputDesc.val("");
+    resetDropboxDisplay();
 
-    console.log('Item Stored in localStorage: ', inputKey, inputDesc, inputCategory);
-    
+    // create new item and set in storage
     var item = new Item(inputKey, inputCategory, inputDesc);
     localStorage.setObject(inputKey, item);
-
+    console.log('Item Stored in localStorage: ', inputKey, inputDesc, inputCategory);
 
     // Confirmation of Item Added to List
     let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Added to Local Storage: ${inputKey}</div>`;
@@ -220,31 +228,6 @@ $(document).ready(function() {
     setTimeout(function(){
       return $(".display").fadeTo("5000", "0");
     }, 5000);
-  
-    
-    // how can we delegate this event to the outer html node?
-    // https://learn.jquery.com/events/event-delegation/
-
-
-
-    /*
-    Do we still want this functionality? Possible hover over/click brings up options
-    including delete, but also edit.
-
-    NOTE: Item display now moved into particular category
-    */
-    $displayItem.on("click", function(e){
-      // plop the key:value back into the input boxes
-
-      // get the values from the the divs?
-      console.log("key=> ", e.target.dataset.storageKey); // user-input-title
-      var test = localStorage.getItem(e.target.dataset.storageKey); // user-input-desc
-      console.log(JSON.parse(test));
-
-      // set those values in the form fields
-      $userInputTitle.val(e.target.dataset.storageKey);
-      $userInputDesc.val(localStorage.getItem(e.target.dataset.storageKey));
-    });
 
   });
 
@@ -260,12 +243,16 @@ $(document).ready(function() {
   });
   */
 
-
   /*
   Add Category Button Functionality
   Prompts users to create a new catgeory and appends it to the end of the category list 
   */
-  $categoryRow.on("click", ".add-category-item", function() {
+  $categoryRow.on('mousedown', 'button.add-category-item', function() {
+    $(this).css({"box-shadow":"1px 1px"})
+  });
+
+  $categoryRow.on("click", "button.add-category-item", function() {
+    $(this).css({"box-shadow":""})
     var category = prompt('Category Name');
     addNewCategory(category);
   });
@@ -275,19 +262,26 @@ $(document).ready(function() {
   Category Button Functianality
   Clicking on a category opens the list of items contained within that category
   */
-  $categoryRow.on('click', '.category-item', function(event){
+  $categoryRow.on('mousedown', 'button.category-item', function() {
+    $(this).css({"box-shadow":"1px 1px"})
+  });
+
+  $categoryRow.on('click', 'button.category-item', function(event){
+    $(this).css({"box-shadow":""})
     var category = event.target.innerHTML;
     
-    //Remove Category from list functionality
-    // if ($("select").val() === category) {
-    //   resetDropboxDisplay();
-    // }
+  //Remove Category from list functionality
+  //THIS NEEDS TO BE PUT SOMEWHERE
+  // if ($("select").val() === category) {
+  //   resetDropboxDisplay();
+  // }
 
-    // removeFromCategoryList(category);
-    // removeFromCategoryDropdown(category);
-    // popFromCategoryArray(category);
+  // removeFromCategoryList(category);
+  // removeFromCategoryDropdown(category);
+  // popFromCategoryArray(category);
 
-  //Enter Category Page Functionality || THIS IS STATIC
+  //Enter Category Page Functionality
+  //THIS IS HARDCODED NEEDS TO BE DYNAMIC
     $categoryRow.html(`
     <div class="category-details">
     <div id="title">${category}</div>
@@ -307,56 +301,29 @@ $(document).ready(function() {
     addNewCategory(category);
   });
 
-
-  /*
-  Hover over animation for category items
-  Enlarges font size by .15em on hover and returns to original on complete
-  POSSIBLE IDEA: Change bg color/opacity
-  */
-  // $categoryRow.on({
-  //   mouseenter: function() {
-  //     if (!$(this).hasClass('animated')) { 
-  //       $(this).dequeue().stop().animate({ 
-  //         fontSize: "1.15em"
-  //       }, "300", "swing")
-  //     }
-  //   }, 
-    
-  //   mouseleave: function() {
-  //     $(this).addClass('animated').animate({ 
-  //         fontSize: "1em" 
-  //       }, "500", "swing", function() {
-  //         $(this).removeClass('animated').dequeue();
-  //       })
-  //   }
-  // }, ".category-item");
-    
-  // $categoryRow.on({
-  //   mouseenter: function() {
-  //     if (!$(this).hasClass('animated')) { 
-  //       $(this).dequeue().stop().animate({ 
-  //         fontSize: "2.8em"
-  //       }, "300", "swing")
-  //     }
-  //   }, 
-    
-  //   mouseleave: function() {
-  //     $(this).addClass('animated').animate({ 
-  //         fontSize: "2em" 
-  //       }, "500", "swing", function() {
-  //         $(this).removeClass('animated').dequeue();
-  //       })
-  //   }
-  // }, ".add-category-item");
-  
   /*
   Category Container Close Button
   X button at the top right of the category title. On click returns user
   back to the category list
   */
   $categoryRow.on('click', '#close', function() {
-    $categoryRow.html('').append('<div class="category-container"><div class="add-category-item" id="add-category">+</div>')
+    $categoryRow.html('').append('<div class="category-container"><button class="add-category-item" id="add-category">+</div>')
     populateCategoryList(); 
+  });
+
+  /*
+  Item Click Functionality 
+  When user clicks on display item brings up edit and delete options
+  */
+  $displayItem.on("click", function(e){
+    // get the values from the the divs?
+    console.log("key=> ", e.target.dataset.storageKey); // user-input-title
+    var test = localStorage.getItem(e.target.dataset.storageKey); // user-input-desc
+    console.log(JSON.parse(test));
+
+    // set those values in the form fields
+    $userInputTitle.val(e.target.dataset.storageKey);
+    $userInputDesc.val(localStorage.getItem(e.target.dataset.storageKey));
   });
 
 });
