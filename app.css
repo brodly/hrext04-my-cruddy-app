@@ -51,95 +51,140 @@ table {
 
 * { 
   box-sizing: border-box; 
-  color: #666;
+  /* color: #666; */
 }
 
 body { 
   font-family: 'Open Sans', sans-serif;
+  background-color: #FFF8EB;
 }
 
 .main {
-  padding: 5px;
-  min-width: 730px;
-  max-width: 960px;
-  width: 95%;
-  margin: 20px auto;
+  /* padding: 5px; */
+  width: 960px;
+  /* max-width: 960px;
+  width: 95%; */
+  margin: 0px auto;
 }
 
 header {
   width: 100%;
-  padding: 20px;
-  border: solid 1px grey;
+  margin: 20px 0 0 0;
+  padding: 10px;
+  border: solid 0px black;
   font-size: 3em;
+  text-indent: 40px;
+  background-color: #c53e3e;
+  color: black;
+  font-weight: 100;
+  text-align: left;
 }
 
+/*
+Section Between Header and Footer
+*/
 .column-section {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
-  margin: 5px 0;
-  padding: 20px;
-  /* border: solid 1px maroon; */
+  justify-content: space-between;
+  margin: 0;
+  padding: 20px 20px 0 20px;
+  border: solid 0px black;
   max-width: 960px;
+  background-color: #A39F96;
 }
 
+/*
+Left and right border Columns
+*/
 .outer-column {
-  /* flex: 1; */
-  /* border: 1px solid pink; */
+  flex: 1;
+  /* border: 1px solid red; */
   padding: 10px;
-  min-width: 0px
+  min-width: 0px;
 	/* &:first-child { margin-left: 0; }
-	&:last-child { margin-right: 0; } */
+  &:last-child { margin-right: 0; } */
 }
 
+/*
+Main Content Column
+*/
 .main-column {
   text-align: center;
-  /* border: 1px solid yellow; */
-  margin: 5px;
-  padding: 10px;
-  width: 800px;
+  border-style: none solid;
+  border-color: black;
+  border-width: 0px;
+  margin: auto;
+  padding: 10px 0 10px 0;
+  width: 90%;
+  background-color: #A39F96;
 }
 
+/*
+Search Row
+*/
+.search-row {
+  margin: 0px;
+  padding: 0px
+}
+
+/*
+Search Field
+*/
 input.search-bar {
-  width: 100%;
+  width: 90%;
   height: 50px;
   font-size: 1.75em;
   font-family: 'Open Sans', sans-serif;
   text-indent: 40px;
-  border: 1px solid lightgray;
+  border: 0px solid black;
   background-repeat: no-repeat;
   background-size: 40px 40px;
   background-position-y: 5px;
+  background-color: #EDE6E3;
+  color: #424141;
 }
 
+/*
+Row Under Search and Above Category Container
+This row contains both Input Row and Input Display (Added to Local Storage)
+*/
 .content-row {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 10px;
-  border: 1px solid lightgray;
+  /* padding-bottom: 10px; */
+  /* margin: 0; */
+  /* border-style: solid none;
+  border-width: 1px;
+  border-color: black; */
 }
 
+/*
+Input New Item Row
+*/
 .input {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
-  /* border: 1px solid red; */
-  margin-bottom: 5px;
-  padding-left: 25px;
-  padding-right: 25px;
-  width: 100%;
+  border-style: solid;
+  border-color: black;
+  border-width: 0px;
+  margin: auto;
+  /* margin-bottom: 5px; */
+  padding: 20px 5px;
+  width: 90%;
+  background: #8A867F;
 }
 
-#spacer-category {
-  color: darkgray;
-}
-
+/*
+Added To Local Storage Display
+*/
 .display {
   text-align: center;
   margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px; 
   width: 50%;
   height: 22px;
   border: 1px dotted gold;
@@ -148,32 +193,75 @@ input.search-bar {
   padding: 2px;
 }
 
+/*
+Input Boxes (Item Name, Description, Category Dropdown, Add)
+*/
 input.user-input-title, input.user-input-desc, select, button.add-text-btn {
-  height: 30px;
+  height: 40px;
+  width: 160px;
   text-align: center;
   font-family: 'Open Sans', sans-serif;
-  border: 1px solid;
+  border: 0px solid black;
+  color: #424141;
+  background-color: #EDE6E3;
 }
 
+/* button.add-text-btn {
+  margin: 5px;
+  height: 30px;
+  width: 80px;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  border: 0px solid black;
+  color: #424141;
+  background-color: #EDE6E3;
+} */
+
+/*
+Section below Input boxes and above Footer
+This is where the category container (i.e Books/Recipes/Movies) and
+the category details (i.e items within categories) live
+*/
 .category-row {
   text-align: center;
-  border: solid 1px lightgray;
-  padding: 20px;
 }
 
-.category-container, .category-details {
+/*
+Style for category container (List of all categories)
+*/
+.category-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  align-items: center;
   margin: auto;
-  padding-right: 20px;
-  padding-left: 20px;
-  /* border: 1px solid red; */
-  width: 590px;
+  padding: 10px 0px 10px 11%;
+  border: 0px solid black;
+  width: 90%;
+  background-color: #8A867F;
 }
 
-.title {
+/*
+Style for category details (items within categories)
+*/
+.category-details {
+  display: flex;
+  flex-flow: row wrap;
+  /* justify-content: flex-start; */
+  margin: auto;
+  /* padding: 10px 0px 10px 40px; */
+  border: 0px solid black;
+  width: 90%;
+  background-color: #8A867F;
+}
+
+/*
+STYLE FOR HOVER OVER OPTIONS EDIT/DELETE
+*/
+
+/*
+Title/header for Category Box
+*/
+/* .title {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -181,24 +269,9 @@ input.user-input-title, input.user-input-desc, select, button.add-text-btn {
   width: 100%;
   padding: 10px;
   margin: 10px;
-}
+} */
 
-div#title {
-  margin: 10px;
-  text-align: center;
-  width: 92%;
-  border: 1px solid blue;
-}
-
-div#close {
-  flex: 0;
-  width: 8%;
-  padding-left: 5px;
-  padding-right: 5px;
-  border: 1px solid green;
-}
-
-.category-item-options {
+/* .category-item-options {
   border: 1px solid slateblue;
   width: 150px;
   height: 150px;
@@ -206,6 +279,7 @@ div#close {
 
 .category-item #close-button:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 .category-item #close-button {
@@ -216,36 +290,75 @@ div#close {
   width: 20px;
   line-height: 20px;
   opacity: 0;
-}
+} */
 
-.add-category-item {
-  order: 1;
-  border: dotted 1.2px;
-  background: lightgray;
-  opacity: .75;
-  font-size: 2em;
-}
-
-.category-item {
-  border: solid 1.5px grey;
-  background: lightgrey;
-  opacity: .75;
-}
-
+/*
+Hover style for category items
+*/
 .category-item:hover, .add-category-item:hover {
-  background: lightcyan;
+  background: #c43c3c;
   cursor: pointer;
 }
 
+/*
+Style for category items
+*/
 .category-item, .add-category-item {
   width: 150px;
   height: 150px;
   margin: 15px;
   text-align: center;
-  line-height: 100px;
-  color: black;
+  line-height: 150px;
+  color: #1e1c1c;
 }
 
+/*
+Specific style for add new category button
+*/
+.add-category-item {
+  order: 1;
+  border: dotted 0px;
+  background: #7a7a7a;
+  opacity: .75;
+  font-size: 2em;
+}
+
+/*
+Specific style for each category
+*/
+.category-item {
+  border: solid 0px black;
+  background: rgba(163, 160, 163, 0.623);
+  opacity: .75;
+}
+
+/*
+Header title for category details section (i.e Books)
+*/
+div#title {
+  margin: 10px 9px 10px 10px;
+  text-align: center;
+  width: 90%;
+  padding: 10px;
+  border: 1px solid black;
+  font-size: 2em;
+}
+
+/*
+Close button for category details section
+*/
+div#close {
+  text-align: center;
+  margin: 10px;
+  padding: 5px;
+  height: 100%;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+/*
+Row of items within category details
+*/
 .item-list {
   display: flex;
   flex-flow: column nowrap;
@@ -256,19 +369,25 @@ div#close {
   width: 100%;
 }
 
+/*
+Individual item row in category details
+*/
 .item {
   padding-left: 20px;
   text-align: left;
   margin: 2px;
-  border: 1px solid;
+  border: 1px solid green;
   width: 100%;
 }
 
 footer {
   text-align: right;
-  padding: 10px;
+  padding: 30px;
   font-size: 1em;
-  /* border: 1px solid gray; */
+  border: 0px solid black;
+  background-color: #A39F96;
+  color: black;
+  text-align: left;
 }
 
 

@@ -115,7 +115,7 @@ var populateCategoryDropdown = function(){
 };
 
 var addToCategoryDropdown = function(category) {
-  $("select").append(`<option>${category}</option>`)
+  $("select").append(`<option selected>${category}</option>`);
 };
 
 var removeFromCategoryDropdown = function(category) {
@@ -126,12 +126,33 @@ var removeFromCategoryDropdown = function(category) {
   }
 };
 
+/*
+New Category Prompt
+*/
+var addNewCategory = function(category) {
+  if (category !== null) {
+    if (category !== '') {
+      category = formatString(category);
+      if (pushToCategoryArray(category)) {
+        addToCategoryDropdown(category);
+        addToCategoryList(category);
+      }
+    } else {
+      console.log('Category is EMPTY/NULL')
+    }
+  }
+};
+
+var resetDropboxDisplay = function() {
+  $("select").prop('selectedIndex', '#select-category');
+};
+
 
 /* 
 jQuery Begins
 */
 $(document).ready(function() {
-  $("select").prop('selectedIndex', '#select-category');
+  resetDropboxDisplay();
   populateCategoryList();
   populateCategoryDropdown();
   /*
@@ -246,17 +267,7 @@ $(document).ready(function() {
   */
   $categoryRow.on("click", ".add-category-item", function() {
     var category = prompt('Category Name');
-    if (category !== null) {
-      if (category !== '') {
-        category = formatString(category);
-        if (pushToCategoryArray(category)) {
-          addToCategoryDropdown(category);
-          addToCategoryList(category);
-        }
-      } else {
-        console.log('Category is EMPTY/NULL')
-      }
-    }
+    addNewCategory(category);
   });
 
 
@@ -268,26 +279,32 @@ $(document).ready(function() {
     var category = event.target.innerHTML;
     
     //Remove Category from list functionality
-    removeFromCategoryList(category);
-    removeFromCategoryDropdown(category);
-    popFromCategoryArray(category);
+    // if ($("select").val() === category) {
+    //   resetDropboxDisplay();
+    // }
 
-    //Enter Category Page Functionality || THIS IS STATIC
-    // $categoryRow.html(`
-    //   <div class="category-display">
-    //   <div id="title">${categoryName}</div><div id="close">X</div>
-    //     <div class="item-list">
-    //       <div class="item">Catcher In The Rye</div>
-    //       <div class="item">The Bible</div>
-    //       <div class="item">Meditations</div>
-    //     </div>
-    //   </div>
-    // `);
+    // removeFromCategoryList(category);
+    // removeFromCategoryDropdown(category);
+    // popFromCategoryArray(category);
+
+  //Enter Category Page Functionality || THIS IS STATIC
+    $categoryRow.html(`
+    <div class="category-details">
+    <div id="title">${category}</div>
+    <div id="close">X</div>
+    <div class="item-list">
+      <div class="item" id="catcher-in-the-rye">Catcher In The Rye</div>
+      <div class="item" id="the-bible">The Bible</div>
+      <div class="item" id="meditations">Meditations</div>
+    </div>
+  </div>
+    `);
 
   });
 
   $("select").on("click", "#add-category", function(){
-    alert('click')
+    var category = prompt('Category Name');
+    addNewCategory(category);
   });
 
 
@@ -296,41 +313,41 @@ $(document).ready(function() {
   Enlarges font size by .15em on hover and returns to original on complete
   POSSIBLE IDEA: Change bg color/opacity
   */
-  $categoryRow.on({
-    mouseenter: function() {
-      if (!$(this).hasClass('animated')) { 
-        $(this).dequeue().stop().animate({ 
-          fontSize: "1.15em"
-        }, "300", "swing")
-      }
-    }, 
+  // $categoryRow.on({
+  //   mouseenter: function() {
+  //     if (!$(this).hasClass('animated')) { 
+  //       $(this).dequeue().stop().animate({ 
+  //         fontSize: "1.15em"
+  //       }, "300", "swing")
+  //     }
+  //   }, 
     
-    mouseleave: function() {
-      $(this).addClass('animated').animate({ 
-          fontSize: "1em" 
-        }, "500", "swing", function() {
-          $(this).removeClass('animated').dequeue();
-        })
-    }
-  }, ".category-item");
+  //   mouseleave: function() {
+  //     $(this).addClass('animated').animate({ 
+  //         fontSize: "1em" 
+  //       }, "500", "swing", function() {
+  //         $(this).removeClass('animated').dequeue();
+  //       })
+  //   }
+  // }, ".category-item");
     
-  $categoryRow.on({
-    mouseenter: function() {
-      if (!$(this).hasClass('animated')) { 
-        $(this).dequeue().stop().animate({ 
-          fontSize: "2.8em"
-        }, "300", "swing")
-      }
-    }, 
+  // $categoryRow.on({
+  //   mouseenter: function() {
+  //     if (!$(this).hasClass('animated')) { 
+  //       $(this).dequeue().stop().animate({ 
+  //         fontSize: "2.8em"
+  //       }, "300", "swing")
+  //     }
+  //   }, 
     
-    mouseleave: function() {
-      $(this).addClass('animated').animate({ 
-          fontSize: "2em" 
-        }, "500", "swing", function() {
-          $(this).removeClass('animated').dequeue();
-        })
-    }
-  }, ".add-category-item");
+  //   mouseleave: function() {
+  //     $(this).addClass('animated').animate({ 
+  //         fontSize: "2em" 
+  //       }, "500", "swing", function() {
+  //         $(this).removeClass('animated').dequeue();
+  //       })
+  //   }
+  // }, ".add-category-item");
   
   /*
   Category Container Close Button
