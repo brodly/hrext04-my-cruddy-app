@@ -1,6 +1,4 @@
-/*
-Update Storage Prototype to accept Objects
-*/
+//Update Storage Prototype to accept Objects
 Storage.prototype.setObject = function(key, value) {
   this.setItem(key, JSON.stringify(value));
 }
@@ -8,32 +6,69 @@ Storage.prototype.setObject = function(key, value) {
 Storage.prototype.getObject = function(key) {
   return JSON.parse(this.getItem(key));
 }
-
-
-/* 
-Defaults
-*/
+ 
+//Defaults
 var categoryList = ['Books', 'Recipes', 'Movies', 'Restaurants'];
-localStorage.setObject('categoryList', categoryList);
+var books = {
+  'Great Gatsby': {
+    'description': 'This is a good book'
+  },
 
-/* 
-Item Class Prototype
-*/
-var Item = function(name, category, description, note) {
-  this.name = name;
-  this.category = category;
-  this.description = description;
-  this.note = note;
+  'The Bible' : {
+    description: 'epic'
+  },
+
+  'Meditations': {
+    description: 'marcus'
+  }
 };
 
+var recipes = {
+  'Apple Pie': {
+    description: 'Yummy'
+  },
+
+  'Pizza Pie': {
+    description: 'Cheese, Sauce, and dough'
+  }
+}
+
+localStorage.setObject('categoryList', categoryList);
+localStorage.setObject('Books', books);
+localStorage.setObject('Recipes', recipes);
+
+// Category Array
+// var Category = function(name, description, category){
+//   var name = name;
+//   category = [
+//     name: {
+//       'description': description;
+//     }
+//   ];
+// }
+
+
+// Item Class Prototype
+var Item = function(name, description, category) {
+  name = name;
+  category: {
+    name: {
+      description = description;
+    }
+  }
+};
+
+// var Item = {
+//   name: {
+//     'description': description
+//   }
+// }
 
 /*
 Functions
 */
 
-/*
-Searches Local Storage for matching Item Object and returns if found
-*/
+//Searches Local Storage for matching Item Object and returns if found
 var searchLocalStorage = function(term) {
   console.log(typeof term);
   for (var i of Object.keys(localStorage)) {
@@ -56,9 +91,48 @@ var formatString = function(string) {
   })
 };
 
-/*
-Updates categoryList with string when user adds a new category
-*/
+//Add New Item to Local Storage
+var addNewItem = function(name, description, category) {
+  var item = new Item(name, description, category);
+  // category = formatString(category);
+  // if (localStorage.includes(category)) {
+  //   localStorage.getObject(category);
+  // }
+ 
+
+  
+  
+  localStorage.setObject(category, test);
+  var cool = localStorage.getObject(category)
+  //console.log(cool, 'pre bible')
+  
+  cool["The Bible"] = {'description': 'epic'};
+
+  localStorage.setObject(category, cool);
+  var drool = localStorage.getObject(category)
+  //console.log(drool, 'post bible');
+
+};
+
+var updateItem = function(name, description, category) {
+  if (localStorage.getObject(category)) {
+    var item = localStorage.getObject(category)
+    for (var prop in item) {
+      if (prop === name) {
+        return console.log(prop + ' found in ' + category);
+      } else {
+        return console.log(name + ' not found in '+ category);
+      }
+    }
+  } 
+}
+
+updateItem('Great Gatsby', 'fun', 'Books');
+updateItem('Great Gatsby', 'fun', 'Recipes');
+updateItem('Apple Pie', 'fun', 'Recipes');
+updateItem('Pizza', 'fun', 'Recipes');
+
+//Updates categoryList with string when user adds a new category
 var pushToCategoryArray = function(category) {
   if (!categoryList.includes(category)) {
     categoryList.push(category);
@@ -70,9 +144,7 @@ var pushToCategoryArray = function(category) {
   }
 };
 
-/*
-Removes category string from categoryList
-*/
+//Removes category string from categoryList
 var popFromCategoryArray = function(category) {
   if (categoryList.includes(category)) {
     var index = categoryList.indexOf(category);
@@ -84,9 +156,7 @@ var popFromCategoryArray = function(category) {
   }
 };
 
-/*
-Category List Functions
-*/
+//Category List Functions
 var populateCategoryList = function() {
   for (var e of categoryList) {
     $(".category-container").append(`<button class="category-item">${e}</div>`)
@@ -143,7 +213,7 @@ var addNewCategory = function(category) {
   }
 };
 
-var resetDropboxDisplay = function() {
+var resetDropdownBox = function() {
   $("select").prop('selectedIndex', '#select-category');
 };
 
@@ -152,7 +222,7 @@ var resetDropboxDisplay = function() {
 jQuery Begins
 */
 $(document).ready(function() {
-  resetDropboxDisplay();
+  resetDropdownBox();
   populateCategoryList();
   populateCategoryDropdown();
   /*
@@ -214,12 +284,17 @@ $(document).ready(function() {
     // Clear/Reset Item Entry Forms
     $userInputTitle.val("");
     $userInputDesc.val("");
-    resetDropboxDisplay();
+    resetDropdownBox();
 
     // create new item and set in storage
-    var item = new Item(inputKey, inputCategory, inputDesc);
-    localStorage.setObject(inputKey, item);
-    console.log('Item Stored in localStorage: ', inputKey, inputDesc, inputCategory);
+    addNewItem(inputKey, inputDesc, inputCategory);
+
+
+
+
+    // var item = new Item(inputKey, inputCategory, inputDesc);
+    // localStorage.setObject(inputKey, item);
+    // console.log('Item Stored in localStorage: ', inputKey, inputDesc, inputCategory);
 
     // Confirmation of Item Added to List
     let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Added to Local Storage: ${inputKey}</div>`;
@@ -273,7 +348,7 @@ $(document).ready(function() {
   //Remove Category from list functionality
   //THIS NEEDS TO BE PUT SOMEWHERE
   // if ($("select").val() === category) {
-  //   resetDropboxDisplay();
+  //   resetDropdownBox();
   // }
 
   // removeFromCategoryList(category);
