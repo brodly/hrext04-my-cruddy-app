@@ -410,7 +410,9 @@ button#close {
 
 .fa-pen, .fa-trash-alt {
   color: #3b2727;
-  padding: 0px 8px
+  padding: 0px 4px;
+  margin: 0px 8px;
+  border: 0px solid black;
 }
 
 /* Style when item list is empty*/

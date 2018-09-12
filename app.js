@@ -7,11 +7,11 @@ Storage.prototype.getObject = function(key) {
   return JSON.parse(this.getItem(key));
 }
  
-//Defaults
+//Default Test Data
 var categoryList = ['Books', 'Recipes', 'Movies', 'Restaurants'];
 var books = {
   'Great Gatsby': {
-    'description': 'This is a good book'
+    description: 'This is a good book'
   },
 
   'The Bible' : {
@@ -32,45 +32,25 @@ var recipes = {
     description: 'Cheese, Sauce, and dough'
   }
 }
+var movies = {};
+var restaurants = {};
 
 localStorage.setObject('categoryList', categoryList);
 localStorage.setObject('Books', books);
 localStorage.setObject('Recipes', recipes);
+localStorage.setObject('Restaurants', restaurants);
+localStorage.setObject('Movies', movies);
 
-// Category Array
-// var Category = function(name, description, category){
-//   var name = name;
-//   category = [
-//     name: {
-//       'description': description;
-//     }
-//   ];
-// }
 
 
 // Item Class Prototype
-var Item = function(name, description, category) {
-  name = name;
-  category: {
-    name: {
-      description = description;
-    }
-  }
+function Item(name, description, category) {
+    var name = name;
+    this[name] = {'description': description };
 };
-
-// var Item = {
-//   name: {
-//     'description': description
-//   }
-// }
-
-/*
-Functions
-*/
 
 //Searches Local Storage for matching Item Object and returns if found
 var searchLocalStorage = function(term) {
-  console.log(typeof term);
   for (var i of Object.keys(localStorage)) {
     if (i.replace(/\s+/g, '').toLowerCase() === term.replace(/\s+/g, '').toLowerCase()) {
       return i;
@@ -93,25 +73,23 @@ var formatString = function(string) {
 
 //Add New Item to Local Storage
 var addNewItem = function(name, description, category) {
-  var item = new Item(name, description, category);
-  // category = formatString(category);
-  // if (localStorage.includes(category)) {
-  //   localStorage.getObject(category);
-  // }
- 
-
+  category = formatString(category);
+  name = formatString(name);
   
-  
-  localStorage.setObject(category, test);
-  var cool = localStorage.getObject(category)
-  //console.log(cool, 'pre bible')
-  
-  cool["The Bible"] = {'description': 'epic'};
-
-  localStorage.setObject(category, cool);
-  var drool = localStorage.getObject(category)
-  //console.log(drool, 'post bible');
-
+  if (localStorage.getObject(category) != null) {
+    var item = localStorage.getObject(category);
+    if (!Object.keys(item).includes(name)) {
+      item[name] = { 'description': description }
+      localStorage.setObject(category, item);
+    } else {
+      alert(name + ' already exists!');
+      return false;
+    } 
+  } else {
+    var item = new Item(name, description, category);
+    localStorage.setObject(category, item);
+  }
+  return true;
 };
 
 var getItemDescription = function(name, category) {
@@ -149,6 +127,24 @@ var updateItemDescription = function(name, category, newDescription) {
       }
     }
   } 
+};
+
+var isCategoryEmpty = function(category) {
+  if (localStorage.getObject(category) === null || Object.keys(localStorage.getObject(category)).length === 0) {
+    $(".item-list").append(`<div class="item-holder">You should really add something!</div>`);
+  } else {
+    return false;
+  }
+};
+
+var removeItem = function(name, category) {
+  if (!isCategoryEmpty(category)) {
+    var item = localStorage.getObject(category);
+    if (Object.keys(item).includes(name)) {
+      delete item[name];
+      localStorage.setObject(category, item);
+    }
+  }
 };
 
 //Updates categoryList with string when user adds a new category
@@ -218,6 +214,10 @@ var removeFromCategoryDropdown = function(category) {
 /*
 New Category Prompt
 */
+var createNewCategoryObject = function(category) {
+  localStorage.setObject(category, {});
+};
+
 var addNewCategory = function(category) {
   if (category !== null) {
     if (category !== '') {
@@ -225,6 +225,7 @@ var addNewCategory = function(category) {
       if (pushToCategoryArray(category)) {
         addToCategoryDropdown(category);
         addToCategoryList(category);
+        createNewCategoryObject(category);
       }
     } else {
       console.log('Category is EMPTY/NULL')
@@ -249,8 +250,6 @@ $(document).ready(function() {
   */
   var $inputSearchBar = $("input.search-bar");
   var $addTextBtn = $(".add-text-btn");
-  var $userInputTitle = $(".user-input-title");
-  var $userInputDesc = $(".user-input-desc");
   var $displayItem = $(".item");
   var $addCategoryItem = $("button.add-category-item");
   var $categoryRow = $(".category-row");
@@ -288,54 +287,34 @@ $(document).ready(function() {
   });
 
   $addTextBtn.on("click", function(){
-    //reset click box shadow effect
+    //Resets click box shadow effect
     $(this).css({"box-shadow":""});
 
-    //store values
-    let inputKey = formatString($userInputTitle.val());
-    let inputDesc = formatString($userInputDesc.val());
-    let inputCategory = $("select").val();
+    let name = $(".user-input-title").val();
+    let description = $(".user-input-desc").val();
+    let category = $("select").val();
 
-    if (inputCategory === null) {
-      inputCategory = 'unsorted';
+    if (category === null) {
+      alert('You gotta pick a category!')
+    } else {
+      if (addNewItem(name, description, category)) {
+        if ($("div.category-details")[0].id === category) {
+          if ($(".item-holder")) {
+            $(".item-holder").remove();
+          }   
+          $(".item-list").append(`<div class="item" id="${category}">${name}<span class="description">${description}</span><span class="settings" style="opacity: 0;"><i class="fas fa-bars"></i></span></div>`);
+        } else {
+          alert(`Added ${name} to ${category}`)
+        }
+      }
     }
 
     // Clear/Reset Item Entry Forms
-    $userInputTitle.val("");
-    $userInputDesc.val("");
+    $(".user-input-title").val("");
+    $(".user-input-desc").val("");
     resetDropdownBox();
 
-    // create new item and set in storage
-    addNewItem(inputKey, inputDesc, inputCategory);
-
-
-
-
-    // var item = new Item(inputKey, inputCategory, inputDesc);
-    // localStorage.setObject(inputKey, item);
-    // console.log('Item Stored in localStorage: ', inputKey, inputDesc, inputCategory);
-
-    // Confirmation of Item Added to List
-    let itemHtml = `<div class="display-item" data-storage-key="${inputKey}">Added to Local Storage: ${inputKey}</div>`;
-    $(".display").html(itemHtml);
-    $(".display").fadeTo("4000", ".75");
-    setTimeout(function(){
-      return $(".display").fadeTo("5000", "0");
-    }, 5000);
-
   });
-
-
-  /*
-  REMOVED: Delete Button
-
-  $(".del-text-btn").on("click", function() {
-    alert('item deleted? check the console'); // maybe change to a window.confirm
-    localStorage.removeItem( $('.user-input-title').val() ); // grab the title and plop here
-    $userInputTitle.val("");
-    $userInputDesc.val("");
-  });
-  */
 
   /*
   Add Category Button Functionality
@@ -351,7 +330,6 @@ $(document).ready(function() {
     addNewCategory(category);
   });
 
-
   /*
   Category Button Functianality
   Clicking on a category opens the list of items contained within that category
@@ -364,7 +342,7 @@ $(document).ready(function() {
     $(this).css({"box-shadow":""})
     var category = event.target.innerHTML;
     $categoryRow.html(`
-    <div class="category-details">
+    <div class="category-details" id="${category}">
     <button id="close"><i class="fas fa-chevron-left"></i></button>
     <div id="title">${category}</div>
     <div class="item-list">
@@ -372,14 +350,12 @@ $(document).ready(function() {
     </div>
     `); 
       
-    if (localStorage.getObject(category) !== null) {
+    if (!isCategoryEmpty(category)) {
       var item = localStorage.getObject(category);
       for (var key in item) {
         var description = getItemDescription(key, category);
         $(".item-list").append(`<div class="item" id="${category}">${key}<span class="description">${description}</span><span class="settings" style="opacity: 0;"><i class="fas fa-bars"></i></span></div>`);
       }
-    } else {
-      $(".item-list").append(`<div class="item-holder">You should really add something!</div>`);
     }
 
   //Remove Category from list functionality
@@ -435,17 +411,25 @@ $(document).ready(function() {
   $categoryRow.on("click", ".settings", function(event) {
     var item = event.target.parentNode.previousSibling.previousSibling.data;
     var category = event.target.parentNode.parentNode.id;
-    $('.settings').html('<i class="fas fa-pen"></i><i class="far fa-trash-alt"></i>')
-    updateItemName(item, category, 'Grate Slatsby');
-    updateItemDescription(item, category, 'the green light')
+    $('.settings').html('<i class="fas fa-pen" id="edit"></i><i class="far fa-trash-alt" id="delete"></i>')
+    //updateItemName(item, category, 'Grate Slatsby');
+    //updateItemDescription(item, category, 'the green light')
+
+    // $('#edit').on('click', function(){
+
+    // });
+
+    $('#delete').on('click', function(){
+      var confirm = window.confirm('Are you sure you want to delete ' + item);
+      if (confirm) {
+        $(`.item:contains(${item})`).remove()
+        removeItem(item, category);
+      }
+      isCategoryEmpty(category);
+    });
+
+
   });
-
-  // $categoryRow.on('mouseover', '.far, .fas', function(){
-  //   console.log(this);
-  //   $(this).css('opacity', '1');
-  // });
-
-
 
   $categoryRow.on('mouseout', '.item', function(event) {
     //$(this.childNodes[2]).css( "opacity", "0" )
