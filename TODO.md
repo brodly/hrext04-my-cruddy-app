@@ -11,7 +11,7 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 # Detail Todo
 ### Front End
 - [√] display items
-  - [ ] display items in respected categories
+  - [√] display items in respected categories
 - [ ] remove items from display
 - [√] enter new item
 - [√] select item for edit
@@ -23,7 +23,7 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 
 ### Backend
 - [√] Put categoryList into Local Storage
-- [ ] Refactor category input code to append new categories to categoryList array
+- [√] Refactor category input code to append new categories to categoryList array
 
 ### UI/UX
 - [ ] Confirmation of delete/update
@@ -53,17 +53,19 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 - 10 = full day+
 
 ## basic features
-- [3] Populate index.html on first load with new items and categories 
+- [√] Populate index.html on first load with new items and categories 
 - [4] search form at top
 - [√] input item form under search
   - [√] adding items has dropdown list with general categories
   - [√] + button to add new category
 - [√] categories to hold specific items below input
   - [√] grid based layout 3 x 4 (3 across/infinte down?)
-- [3] Category page needs to be dynamic   
+- [√] Category page needs to be dynamic   
 - [3] edit items
+  - [√] functionality
+  - [ ] build UI
   - [ ] hover over edit options
-- [ ] populate dropdown category from category array  
+- [√] populate dropdown category from category array  
 - [2] fully delete category
   - [1] button for delete
   - [√] delete from dropdown list
