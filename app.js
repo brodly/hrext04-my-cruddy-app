@@ -114,23 +114,31 @@ var addNewItem = function(name, description, category) {
 
 };
 
-var updateItem = function(name, description, category) {
+var updateItemName = function(name, category, newName) {
   if (localStorage.getObject(category)) {
-    var item = localStorage.getObject(category)
+    var item = localStorage.getObject(category);
     for (var prop in item) {
       if (prop === name) {
-        return console.log(prop + ' found in ' + category);
-      } else {
-        return console.log(name + ' not found in '+ category);
+        var storedProp = item[prop];
+        item[name] = item[newName];
+        item[newName] = storedProp;
+        delete item[name];
+      }
+    }
+  }
+};
+
+var updateItemDescription = function(name, description, category) {
+  if (localStorage.getObject(category)) {
+    var item = localStorage.getObject(category);
+    for (var prop in item) {
+      if (prop === name) {
+        item[prop].description = description;
+        localStorage.setObject(category, item);
       }
     }
   } 
-}
-
-updateItem('Great Gatsby', 'fun', 'Books');
-updateItem('Great Gatsby', 'fun', 'Recipes');
-updateItem('Apple Pie', 'fun', 'Recipes');
-updateItem('Pizza', 'fun', 'Recipes');
+};
 
 //Updates categoryList with string when user adds a new category
 var pushToCategoryArray = function(category) {
@@ -344,7 +352,24 @@ $(document).ready(function() {
   $categoryRow.on('click', 'button.category-item', function(event){
     $(this).css({"box-shadow":""})
     var category = event.target.innerHTML;
-    
+    $categoryRow.html(`
+    <div class="category-details">
+    <button id="close"><i class="fas fa-chevron-left"></i></button>
+    <div id="title">${category}</div>
+    <div class="item-list">
+    </div>
+    </div>
+    `); 
+      
+    if (localStorage.getObject(category) !== null) {
+      var item = localStorage.getObject(category);
+      for (var key in item) {
+        $(".item-list").append(`<div class="item">${key}</div>`);
+      }
+    } else {
+      $(".item-list").append(`<div class="item-holder">You should really add something!</div>`);
+    }
+
   //Remove Category from list functionality
   //THIS NEEDS TO BE PUT SOMEWHERE
   // if ($("select").val() === category) {
@@ -357,17 +382,7 @@ $(document).ready(function() {
 
   //Enter Category Page Functionality
   //THIS IS HARDCODED NEEDS TO BE DYNAMIC
-    $categoryRow.html(`
-    <div class="category-details">
-    <div id="title">${category}</div>
-    <div id="close">X</div>
-    <div class="item-list">
-      <div class="item" id="catcher-in-the-rye">Catcher In The Rye</div>
-      <div class="item" id="the-bible">The Bible</div>
-      <div class="item" id="meditations">Meditations</div>
-    </div>
-  </div>
-    `);
+ 
 
   });
 

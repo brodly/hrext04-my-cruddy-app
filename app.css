@@ -281,7 +281,9 @@ Style for category details (items within categories)
 .category-details {
   display: flex;
   flex-flow: row wrap;
+  justify-content: flex-start;
   margin: -2px auto;
+  padding: 0px 30px;
   width: 90%;
   background-color: #8A867F;
   box-shadow: 1px 1px #1e1c1c;
@@ -300,9 +302,7 @@ Hover style for category items
   outline-color: #351212;
 }
 
-/*
-Style for category items
-*/
+/* Style for category items */
 button.category-item, button.add-category-item {
   width: 150px;
   height: 150px;
@@ -314,16 +314,12 @@ button.category-item, button.add-category-item {
   font-family: 'Inconsolata', monospace;
 }
 
-/*
-
-/*
-Specific style for add new category button
-*/
+/* Specific style for add new category button */
 button.add-category-item {
   order: 1;
   background: #7a7a7a;
   opacity: .75;
-  font-size: 2em;
+  font-size: 2.5em;
   text-align: center;
   border: 1px dashed rgb(34, 30, 30);
 }
@@ -337,28 +333,36 @@ button.category-item {
   border: 1px solid rgb(14, 10, 10);
 }
 
-/*
-Header title for category details section (i.e Books)
-*/
+/*Header title for category details section (i.e Books)*/
 div#title {
-  margin: 10px 9px 10px 10px;
+  margin: auto;
   text-align: center;
   width: 90%;
   padding: 10px;
   border: 1px solid black;
   font-size: 2em;
+  color: rgb(31, 26, 26);
+  background: #c43c3c;
+  box-shadow: 1px 1px #1e1c1c;
 }
 
-/*
-Close button for category details section
-*/
-div#close {
+/*Close button for category details section*/
+button#close:hover {
+  background: #884343;
+  cursor: pointer;
+  box-shadow: 4px 5px 1px;
+  outline-color: #351212;
+}
+
+button#close {
   text-align: center;
-  margin: 10px;
-  padding: 5px;
-  height: 100%;
+  margin: 0px 0px 10px 10px;
+  width: 30px;
+  height: 30px;
   border: 1px solid black;
   cursor: pointer;
+  background: #884343;
+  box-shadow: 1px 1px #1e1c1c;
 }
 
 /*
@@ -367,22 +371,37 @@ Row of items within category details
 .item-list {
   display: flex;
   flex-flow: column nowrap;
-  /* text-align: center; */
+  text-align: center;
   margin: 10px;
   padding: 10px;
-  border: 1px solid orange;
+  border: 0px solid orange;
   width: 100%;
 }
 
 /*
 Individual item row in category details
 */
+
+.item:hover {
+  background: #884343;
+  cursor: pointer;
+  box-shadow: 4px 5px 1px;
+  outline-color: #351212;
+}
+
 .item {
   padding-left: 20px;
   text-align: left;
-  margin: 2px;
-  border: 1px solid green;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid black;
+  box-shadow: 1px 1px #1e1c1c;
   width: 100%;
+  background-color: rgba(163, 160, 163, 0.623);
+}
+
+.item-holder {
+  text-align: center;
 }
 
 footer {
