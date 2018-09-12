@@ -114,26 +114,37 @@ var addNewItem = function(name, description, category) {
 
 };
 
+var getItemDescription = function(name, category) {
+  if (localStorage.getObject(category)) {
+    var item = localStorage.getObject(category);
+    for (var prop in item) {
+      if (prop === name) {
+        return item[prop].description;
+      }
+    }
+  } 
+};
+
 var updateItemName = function(name, category, newName) {
   if (localStorage.getObject(category)) {
     var item = localStorage.getObject(category);
     for (var prop in item) {
       if (prop === name) {
         var storedProp = item[prop];
-        item[name] = item[newName];
         item[newName] = storedProp;
         delete item[name];
+        localStorage.setObject(category, item);
       }
     }
   }
 };
 
-var updateItemDescription = function(name, description, category) {
+var updateItemDescription = function(name, category, newDescription) {
   if (localStorage.getObject(category)) {
     var item = localStorage.getObject(category);
     for (var prop in item) {
       if (prop === name) {
-        item[prop].description = description;
+        item[prop].description = newDescription;
         localStorage.setObject(category, item);
       }
     }
@@ -240,7 +251,7 @@ $(document).ready(function() {
   var $addTextBtn = $(".add-text-btn");
   var $userInputTitle = $(".user-input-title");
   var $userInputDesc = $(".user-input-desc");
-  var $displayItem = $(".display-item");
+  var $displayItem = $(".item");
   var $addCategoryItem = $("button.add-category-item");
   var $categoryRow = $(".category-row");
   var $categoryContainer = $(".category-container");
@@ -364,7 +375,8 @@ $(document).ready(function() {
     if (localStorage.getObject(category) !== null) {
       var item = localStorage.getObject(category);
       for (var key in item) {
-        $(".item-list").append(`<div class="item">${key}</div>`);
+        var description = getItemDescription(key, category);
+        $(".item-list").append(`<div class="item" id="${category}">${key}<span class="description">${description}</span><span class="settings" style="opacity: 0;"><i class="fas fa-bars"></i></span></div>`);
       }
     } else {
       $(".item-list").append(`<div class="item-holder">You should really add something!</div>`);
@@ -405,15 +417,39 @@ $(document).ready(function() {
   Item Click Functionality 
   When user clicks on display item brings up edit and delete options
   */
-  $displayItem.on("click", function(e){
-    // get the values from the the divs?
-    console.log("key=> ", e.target.dataset.storageKey); // user-input-title
-    var test = localStorage.getItem(e.target.dataset.storageKey); // user-input-desc
-    console.log(JSON.parse(test));
+ 
+  $categoryRow.on("mouseover", ".item", function(event) {
+    var settingsBurger = event.target.childNodes[2];
+    $(settingsBurger).css("opacity", ".3")
 
-    // set those values in the form fields
-    $userInputTitle.val(e.target.dataset.storageKey);
-    $userInputDesc.val(localStorage.getItem(e.target.dataset.storageKey));
+    $(settingsBurger).on('mouseover', function(){
+      $(settingsBurger).css('opacity', '1')
+    });
+  });
+
+  $categoryRow.on("mouseout", ".item", function(event){
+    var settingsBurger = event.target.childNodes[2];
+    $(settingsBurger).css("opacity", "0")
+  });
+
+  $categoryRow.on("click", ".settings", function(event) {
+    var item = event.target.parentNode.previousSibling.previousSibling.data;
+    var category = event.target.parentNode.parentNode.id;
+    $('.settings').html('<i class="fas fa-pen"></i><i class="far fa-trash-alt"></i>')
+    updateItemName(item, category, 'Grate Slatsby');
+    updateItemDescription(item, category, 'the green light')
+  });
+
+  // $categoryRow.on('mouseover', '.far, .fas', function(){
+  //   console.log(this);
+  //   $(this).css('opacity', '1');
+  // });
+
+
+
+  $categoryRow.on('mouseout', '.item', function(event) {
+    //$(this.childNodes[2]).css( "opacity", "0" )
+    //$('.settings').html('<i class="fas fa-bars"></i>')
   });
 
 });

@@ -2,7 +2,6 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -23,6 +22,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -47,6 +47,7 @@ table {
 	border-spacing: 0;
 }
 
+/*Styling Starts Here*/
 * { 
   box-sizing: border-box; 
 }
@@ -57,10 +58,7 @@ body {
 }
 
 .main {
-  /* padding: 5px; */
   width: 960px;
-  /* max-width: 960px;
-  width: 95%; */
   margin: auto;
 }
 
@@ -80,6 +78,8 @@ header {
 
 /*
 Section Between Header and Footer
+Holds everything from borders, search row, content window, etc. 
+include .main-column
 */
 .column-section {
   display: flex;
@@ -94,20 +94,18 @@ Section Between Header and Footer
   background-color: #A39F96;
 }
 
-/*
-Left and right border Columns
-*/
+/*Left and right border Columns*/
 .outer-column {
   flex: 1;
   /* border: 1px solid red; */
   padding: 10px;
   min-width: 0px;
-	/* &:first-child { margin-left: 0; }
-  &:last-child { margin-right: 0; } */
 }
 
 /*
 Main Content Column
+Holds everything but the borders -- Search row and content.
+Embedded in .column-section between the .outer-columns
 */
 .main-column {
   text-align: center;
@@ -120,17 +118,13 @@ Main Content Column
   background-color: #A39F96;
 }
 
-/*
-Search Row
-*/
+/*Top row of the .main-column. Row to hold the search bar*/
 .search-row {
   margin: 0px;
   padding: 0px
 }
 
-/*
-Search Field
-*/
+/*The actual search field*/
 input.search-bar {
   width: 90%;
   height: 50px;
@@ -161,27 +155,22 @@ This row contains both Input Row and Input Display (Added to Local Storage)
   border-color: black; */
 }
 
-/*
-Input New Item Row
-*/
+/*Input New Item Row -- Holds the input fields*/
 .input {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
   border-style: solid;
   border-color: black;
-  border-width: 1px 1px 0px 1px;
+  border-width: 1px 1px 1px 1px;
   margin: 10px auto 0;
-  /* margin-bottom: 5px; */
   padding: 20px 5px;
   width: 90%;
   background: #8A867F;
   box-shadow: 1px 0px #1e1c1c;;
 }
 
-/*
-Added To Local Storage Display
-*/
+/*Added To Local Storage Display -- Displays below the input row*/
 .display {
   text-align: center;
   margin: auto;
@@ -194,9 +183,7 @@ Added To Local Storage Display
   padding: 2px;
 }
  
-/*
-Input Boxes (Item Name, Description)
-*/
+/*Input Fields (Item Name, Description)*/
 input.user-input-title, input.user-input-desc {
   height: 40px;
   width: 160px;
@@ -210,9 +197,18 @@ input.user-input-title, input.user-input-desc {
   text-indent: 10px;
 }
 
-/*
-Category Dropdown Box
-*/
+/*Category Dropdown Box*/
+select:hover {
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+  appearance: none;  /* remove default arrow */
+  background: #EDE6E3 url(images/down-hover.png) no-repeat;
+  background-size: 10px;
+  overflow: hidden;
+  background-position: 96% 60%;
+  padding-right: 15px;
+  cursor: pointer;
+}
 select {
   height: 40px;
   width: 160px;
@@ -221,22 +217,24 @@ select {
   font-family: 'Inconsolata', monospace;
   border: 1px solid black;
   color: #424141;
-  background-color: #EDE6E3;
   box-shadow: 1px 1px #1e1c1c;
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+  appearance: none;  /* remove default arrow */
+  background: #EDE6E3 url(images/down.png) no-repeat;
+  background-size: 10px;
+  overflow: hidden;
+  background-position: 96% 60%;
+  padding-right: 15px;
 }
 
-/*
-Add Button Hover effect
-*/
+/*Input Field Add Button*/
 button.add-text-btn:hover {
   background-color: #c43c3c;
   cursor: pointer;
   box-shadow: 4px 5px 1px;
 }
 
-/*
-Add Button
-*/
 button.add-text-btn {
   height: 40px;
   width: 100px;
@@ -251,39 +249,35 @@ button.add-text-btn {
 
 /*
 Section below Input boxes and above Footer
-This is where the category container (i.e Books/Recipes/Movies) and
-the category details (i.e items within categories) live
+This is the wrapper for category container (i.e Books/Recipes/Movies) and
+the category details (i.e items within categories)
 */
 .category-row {
   text-align: center;
 }
 
-/*
-Style for category container (List of all categories)
-*/
+/*Style for category container (List of all categories)*/
 .category-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  margin: -2px auto;
-  padding: 10px 0px 10px 11%;
+  margin: -1px auto;
+  padding: 10px 140px 10px 125px;
   width: 90%;
   background-color: #8A867F;
   box-shadow: 1px 1px #1e1c1c;
-  border-width: 0px 1px 1px 1px; 
+  border-width: 1px 1px 1px 1px; 
   border-style: solid; 
   border-color: rgb(34, 32, 32);
 }
 
-/*
-Style for category details (items within categories)
-*/
+/*Style for category details (Breakdown of items in a category)*/
 .category-details {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   margin: -2px auto;
-  padding: 0px 30px;
+  padding: 30px;
   width: 90%;
   background-color: #8A867F;
   box-shadow: 1px 1px #1e1c1c;
@@ -292,9 +286,7 @@ Style for category details (items within categories)
   border-color: rgb(34, 32, 32);
 }
 
-/*
-Hover style for category items
-*/
+/* Style for category boxes */
 .category-item:hover, .add-category-item:hover {
   background: #c43c3c;
   cursor: pointer;
@@ -302,7 +294,6 @@ Hover style for category items
   outline-color: #351212;
 }
 
-/* Style for category items */
 button.category-item, button.add-category-item {
   width: 150px;
   height: 150px;
@@ -314,26 +305,27 @@ button.category-item, button.add-category-item {
   font-family: 'Inconsolata', monospace;
 }
 
-/* Specific style for add new category button */
+/* Style for add new category button */
+.add-category-item:hover {
+  opacity: 1;
+}
+
 button.add-category-item {
   order: 1;
   background: #7a7a7a;
-  opacity: .75;
+  opacity: .7;
   font-size: 2.5em;
   text-align: center;
   border: 1px dashed rgb(34, 30, 30);
 }
 
-/*
-Specific style for each category
-*/
+/* Specific style for each category */
 button.category-item {
   background: rgba(163, 160, 163, 0.623);
-  opacity: .75;
   border: 1px solid rgb(14, 10, 10);
 }
 
-/*Header title for category details section (i.e Books)*/
+/* Header title for category details section (i.e Books) */
 div#title {
   margin: auto;
   text-align: center;
@@ -346,7 +338,7 @@ div#title {
   box-shadow: 1px 1px #1e1c1c;
 }
 
-/*Close button for category details section*/
+/* Close/Back button for category details section */
 button#close:hover {
   background: #884343;
   cursor: pointer;
@@ -365,9 +357,7 @@ button#close {
   box-shadow: 1px 1px #1e1c1c;
 }
 
-/*
-Row of items within category details
-*/
+/* Wrapped that holds the list of items */
 .item-list {
   display: flex;
   flex-flow: column nowrap;
@@ -378,19 +368,15 @@ Row of items within category details
   width: 100%;
 }
 
-/*
-Individual item row in category details
-*/
-
+/* Individual item row in category details */
 .item:hover {
   background: #884343;
-  cursor: pointer;
   box-shadow: 4px 5px 1px;
   outline-color: #351212;
+  cursor: default;
 }
 
 .item {
-  padding-left: 20px;
   text-align: left;
   padding: 10px;
   margin: 5px;
@@ -400,10 +386,42 @@ Individual item row in category details
   background-color: rgba(163, 160, 163, 0.623);
 }
 
-.item-holder {
-  text-align: center;
+/*Item Description*/
+.description {
+  float: center;
+  border: 1px solid black;
 }
 
+/*Edit button on item row*/
+.settings:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.settings {
+  border: 0px solid black;
+  padding: 0px 5px;
+  float: right;
+}
+
+.fa-pen:hover, .fa-trash-alt:hover {
+  color: #000000;
+}
+
+.fa-pen, .fa-trash-alt {
+  color: #3b2727;
+  padding: 0px 8px
+}
+
+/* Style when item list is empty*/
+.item-holder {
+  text-align: center;
+  border: 0px solid black;
+  padding: 20px 20px 0px 20px;
+  width: 100%
+}
+
+/* Footer style */
 footer {
   width: 960px;
   margin: auto;
@@ -424,25 +442,3 @@ footer a {
   color: rgb(31, 26, 26);
   text-decoration: none;
 }
-
-
-/* @media screen and (max-width: 980px) {
-  .columns .column {
-		margin-bottom: 5px;
-    flex-basis: 40%;
-		&:nth-last-child(2) {
-			margin-right: 0;
-		}
-		&:last-child {
-			flex-basis: 100%;
-			margin: 0;
-		}
-	}
-}
-
-@media screen and (max-width: 680px) {
-	.columns .column {
-		flex-basis: 100%;
-		margin: 0 0 5px 0;
-	}
-} */
