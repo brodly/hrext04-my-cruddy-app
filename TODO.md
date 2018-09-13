@@ -40,8 +40,8 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 - [ ] c3.js (charts.js)
 
 # Next Steps
-- [ ] factor out common functionality
-- [ ] testing
+- [√] factor out common functionality
+- [√] testing
 
 # Feature list
 ### Difficulty Scale (from 1 to 10 )
@@ -62,9 +62,9 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
   - [√] grid based layout 3 x 4 (3 across/infinte down?)
 - [√] Category page needs to be dynamic   
 - [3] edit items
-  - [√] functionality
-  - [ ] build UI
-  - [ ] hover over edit options
+  - [ ] functionality
+  - [√] build UI
+  - [√] hover over edit options
 - [√] populate dropdown category from category array  
 - [2] fully delete category
   - [1] button for delete
@@ -75,12 +75,12 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 
 ## advanced features
 - [3] select and delete multiple items (highlight/checkbox?)
-- [2] add/leave comments on item
+- [√] add/leave comments on item
 - [2] share items/categories to social media
 - [2] due date
 - [2] add timestamps to each item
   - [2] format with moments.js
-- [2] mouse over items for more detail
+- [√] mouse over items for more detail
 - [3] pull category images from flickr
   - [3] user can add image to represent categories/items
 - [3] set item importance/priority
