@@ -173,8 +173,8 @@ var popFromCategoryArray = function(category) {
 
 //Category List Functions
 var populateCategoryList = function() {
-  for (var e of categoryList) {
-    $(".category-container").append(`<button class="category-item">${e}</div>`)
+  for (var category of categoryList) {
+    $(".category-container").append(`<button class="category-item">${category}</div>`)
   }
 };
 
@@ -371,7 +371,6 @@ $(document).ready(function() {
   //Enter Category Page Functionality
   //THIS IS HARDCODED NEEDS TO BE DYNAMIC
  
-
   });
 
   $("select").on("click", "#add-category", function(){
@@ -427,7 +426,6 @@ $(document).ready(function() {
       }
       isCategoryEmpty(category);
     });
-
 
   });
 
