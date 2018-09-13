@@ -377,8 +377,10 @@ button#close {
 }
 
 .item {
-  text-align: left;
-  padding: 10px;
+  display: grid;
+  grid-template-columns: [name] 140px [description] auto [settings] 90px;
+  grid-template-areas: name description settings;
+  padding: 15px 0px;
   margin: 5px;
   border: 1px solid black;
   box-shadow: 1px 1px #1e1c1c;
@@ -386,33 +388,54 @@ button#close {
   background-color: rgba(163, 160, 163, 0.623);
 }
 
+.name {
+  grid-area: name;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  text-align: left;
+  margin-left: 30px
+}
+
 /*Item Description*/
 .description {
-  float: center;
-  border: 1px solid black;
+  grid-area: description;
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  text-align: left;
+  padding: 0px 50px;
+  border: 0px solid black;
 }
 
 /*Edit button on item row*/
 .settings:hover {
   cursor: pointer;
-  opacity: 1;
 }
 
 .settings {
+  grid-area: settings;
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
+  text-align: right;
+  margin-right: 20px;
   border: 0px solid black;
-  padding: 0px 5px;
-  float: right;
 }
 
-.fa-pen:hover, .fa-trash-alt:hover {
+.fa-pen:hover, .fa-trash-alt:hover, .fa-times:hover {
   color: #000000;
 }
 
-.fa-pen, .fa-trash-alt {
+.fa-pen {
   color: #3b2727;
-  padding: 0px 4px;
-  margin: 0px 8px;
+}
+
+.fa-trash-alt {
+  color: #3b2727;
+  /* margin: 0px 10px 0px 10px; */
   border: 0px solid black;
+}
+
+.fa-times {
+  color: #3b2727;
 }
 
 /* Style when item list is empty*/

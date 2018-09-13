@@ -302,7 +302,13 @@ $(document).ready(function() {
           if ($(".item-holder")) {
             $(".item-holder").remove();
           }   
-          $(".item-list").append(`<div class="item" id="${category}">${name}<span class="description">${description}</span><span class="settings" style="opacity: 0;"><i class="fas fa-bars"></i></span></div>`);
+          $(".item-list").append(`
+            <div class="item" id="${category}">
+            <div class="name">${name}</div>
+            <div class="description">${description}</div>
+            <div class="settings" style="opacity: 0;"><i class="fas fa-bars"></i></div>
+            </div>
+          `);
         } else {
           alert(`Added ${name} to ${category}`)
         }
@@ -334,6 +340,12 @@ $(document).ready(function() {
   Category Button Functianality
   Clicking on a category opens the list of items contained within that category
   */
+
+  $categoryRow.on('mouseenter', 'button.category-item', function(event){
+    var category = event.target.innerHTML;
+    console.log('hover over ' + category + ' category');
+  });
+
   $categoryRow.on('mousedown', 'button.category-item', function() {
     $(this).css({"box-shadow":"1px 1px"})
   });
@@ -342,19 +354,25 @@ $(document).ready(function() {
     $(this).css({"box-shadow":""})
     var category = event.target.innerHTML;
     $categoryRow.html(`
-    <div class="category-details" id="${category}">
-    <button id="close"><i class="fas fa-chevron-left"></i></button>
-    <div id="title">${category}</div>
-    <div class="item-list">
-    </div>
-    </div>
+      <div class="category-details" id="${category}">
+      <button id="close"><i class="fas fa-chevron-left"></i></button>
+      <div id="title">${category}</div>
+      <div class="item-list">
+      </div>
+      </div>
     `); 
       
     if (!isCategoryEmpty(category)) {
       var item = localStorage.getObject(category);
       for (var key in item) {
         var description = getItemDescription(key, category);
-        $(".item-list").append(`<div class="item" id="${category}">${key}<span class="description">${description}</span><span class="settings" style="opacity: 0;"><i class="fas fa-bars"></i></span></div>`);
+        $(".item-list").append(`
+        <div class="item" id="${category}">
+        <div class="name">${key}</div>
+        <div class="description">${description}</div>
+        <div class="settings" id="closed" style="opacity: 0;"><i class="fas fa-bars"></i></div>
+        </div>
+        `);
       }
     }
 
@@ -392,46 +410,68 @@ $(document).ready(function() {
   Item Click Functionality 
   When user clicks on display item brings up edit and delete options
   */
- 
-  $categoryRow.on("mouseover", ".item", function(event) {
-    var settingsBurger = event.target.childNodes[2];
-    $(settingsBurger).css("opacity", ".3")
+  
+  //Hover over individual item
+  $categoryRow.on("mouseenter", ".item", function() {
+    var settingsClosed = $(this).children(".settings#closed") // sets settings class with closed ID
+    //var settingsOpened = $(this).children(".settings#opened") // sets settings class with opened ID
+    $(settingsClosed).css("opacity", ".3");                   // changes opacity from 0 to .3
 
-    $(settingsBurger).on('mouseover', function(){
-      $(settingsBurger).css('opacity', '1')
+    $(settingsClosed).on("mouseenter", function() {           // when mouse enters settings
+      $(this).css("opacity", "1");                            // change opacity to from .3 to 1
     });
-  });
 
-  $categoryRow.on("mouseout", ".item", function(event){
-    var settingsBurger = event.target.childNodes[2];
-    $(settingsBurger).css("opacity", "0")
-  });
+    $(settingsClosed).on("mouseleave", function() {           // when mouse leaves settings with closed ID
+        $(this).css("opacity", ".3");                         // change opacity from 1 to .3
+    });
 
-  $categoryRow.on("click", ".settings", function(event) {
-    var item = event.target.parentNode.previousSibling.previousSibling.data;
-    var category = event.target.parentNode.parentNode.id;
-    $('.settings').html('<i class="fas fa-pen" id="edit"></i><i class="far fa-trash-alt" id="delete"></i>')
-    //updateItemName(item, category, 'Grate Slatsby');
-    //updateItemDescription(item, category, 'the green light')
+    $(settingsClosed).on("click", function() {                // when mouse clicks settings button 
+      $(this).prop("id", "opened");                           // change ID to open and replace html
+      $(this).html(`
+        <i class="fas fa-pen" id="edit"></i>
+        <i class="far fa-trash-alt" id="delete"></i>
+        <i class="fas fa-times" id="close"></i>
+      `);
+    });
 
-    // $('#edit').on('click', function(){
+    $(settingsClosed).on('click', '#edit', function(){
+      console.log('clicked edit button')
+    });
 
+    // $(settingsOpened).on("click", "#close", function(){                   // when mouse clicks X button
+    //   console.log(this);
+    //   $('.settings#opened').prop("id", "closed");                          // reset ID back to closed
+    //   $('.settings#closed').html('<i class="fas fa-bars"></i>');           // replace html back to setting bars
     // });
 
-    $('#delete').on('click', function(){
-      var confirm = window.confirm('Are you sure you want to delete ' + item);
-      if (confirm) {
-        $(`.item:contains(${item})`).remove()
-        removeItem(item, category);
-      }
-      isCategoryEmpty(category);
-    });
-
   });
 
-  $categoryRow.on('mouseout', '.item', function(event) {
-    //$(this.childNodes[2]).css( "opacity", "0" )
-    //$('.settings').html('<i class="fas fa-bars"></i>')
+  $categoryRow.on("mouseleave", ".item", function(event){
+    var $settings = $(this).children(".settings");
+    $settings.css("opacity", "0");
   });
 
+  // $categoryRow.on("click", ".settings", function(event) {
+  //   var item = event.target.parentNode.previousSibling.previousSibling.data;
+  //   var category = event.target.parentNode.parentNode.id;
+  //   $('.settings').html('<i class="fas fa-pen" id="edit"></i><i class="far fa-trash-alt" id="delete"></i>')
+  //   //updateItemName(item, category, 'Grate Slatsby');
+  //   //updateItemDescription(item, category, 'the green light')
+
+  //   // $('#edit').on('click', function(){
+
+  //   // });
+
+  //   $('#delete').on('click', function(){
+  //     var confirm = window.confirm('Are you sure you want to delete ' + item);
+  //     if (confirm) {
+  //       $(`.item:contains(${item})`).remove()
+  //       removeItem(item, category);
+  //     }
+  //     isCategoryEmpty(category);
+  //   });
+
+  // });
+
+ 
 });
