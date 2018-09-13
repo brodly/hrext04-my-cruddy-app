@@ -41,12 +41,19 @@ localStorage.setObject('Recipes', recipes);
 localStorage.setObject('Restaurants', restaurants);
 localStorage.setObject('Movies', movies);
 
-
-
 // Item Class Prototype
-function Item(name, description, category) {
+function Item(name, description) {
     var name = name;
     this[name] = {'description': description };
+};
+
+// New item entry display Format
+var displayItem = function(name, description, category) {
+  return `<div class="item" id="${category}">
+          <div class="name">${name}</div>
+          <div class="description">${description}</div>
+          <div class="settings" id="closed" style="opacity: 0;"><i class="fas fa-bars"></i></div>
+          </div>`
 };
 
 //Searches Local Storage for matching Item Object and returns if found
@@ -64,6 +71,8 @@ var searchLocalStorage = function(term) {
 Formats String to Titlecase
 -Beginning of each word is uppercase and the rest of the word is lowercase
 i.e Website, Toy Story, This Is My House
+
+Not working with apostrophes (')
 */
 var formatString = function(string) {
   return string.replace(/(^|\s)[a-z]/g, function(f) {
@@ -71,7 +80,6 @@ var formatString = function(string) {
   })
 };
 
-//Add New Item to Local Storage
 var addNewItem = function(name, description, category) {
   category = formatString(category);
   name = formatString(name);
@@ -174,12 +182,12 @@ var popFromCategoryArray = function(category) {
 //Category List Functions
 var populateCategoryList = function() {
   for (var category of categoryList) {
-    $(".category-container").append(`<button class="category-item">${category}</div>`)
+    $(".category-container").append(`<button class="category-item" id='${category}'>${category}</div>`)
   }
 };
 
 var addToCategoryList = function (category) {
-  $(".category-container").append(`<button class="category-item">${category}</div>`);
+  $(".category-container").append(`<button class="category-item" id='${category}'>${category}</div>`);
 };
 
 var removeFromCategoryList = function(category) {
@@ -190,9 +198,7 @@ var removeFromCategoryList = function(category) {
   }
 };
 
-/*
-Category Dropdown Functions
-*/
+// Category Dropdown Functions
 var populateCategoryDropdown = function(){
   for (var e of categoryList) {
     $("select").append(`<option>${e}</option>`);
@@ -211,9 +217,11 @@ var removeFromCategoryDropdown = function(category) {
   }
 };
 
-/*
-New Category Prompt
-*/
+var setCategoryDropdown = function(category) {
+  $("select").val(category).change();
+}
+
+// Add New Category Functions
 var createNewCategoryObject = function(category) {
   localStorage.setObject(category, {});
 };
@@ -233,21 +241,19 @@ var addNewCategory = function(category) {
   }
 };
 
+//Resets dropdown box to default 'Pick a Category' text
 var resetDropdownBox = function() {
   $("select").prop('selectedIndex', '#select-category');
 };
 
 
-/* 
-jQuery Begins
-*/
+/* jQuery Begins */
 $(document).ready(function() {
   resetDropdownBox();
   populateCategoryList();
   populateCategoryDropdown();
-  /*
-  Selector variables
-  */
+
+  /* Selector variables*/
   var $inputSearchBar = $("input.search-bar");
   var $addTextBtn = $(".add-text-btn");
   var $displayItem = $(".item");
@@ -277,18 +283,13 @@ $(document).ready(function() {
   });
 
 
-  /*
-  Add Item Button
-  Adds Item in localStorage as an object.
-  */
-  //Click box shadow effect
+  /* Add Item Button */
   $addTextBtn.on('mousedown', function() {
-    $(this).css({"box-shadow":"1px 1px"})
+    $(this).css({"box-shadow":"1px 1px"})   //Click box shadow effect
   });
 
   $addTextBtn.on("click", function(){
-    //Resets click box shadow effect
-    $(this).css({"box-shadow":""});
+    $(this).css({"box-shadow":""});     //Resets click box shadow effect
 
     let name = $(".user-input-title").val();
     let description = $(".user-input-desc").val();
@@ -298,19 +299,19 @@ $(document).ready(function() {
       alert('You gotta pick a category!')
     } else {
       if (addNewItem(name, description, category)) {
-        if ($("div.category-details")[0].id === category) {
-          if ($(".item-holder")) {
-            $(".item-holder").remove();
-          }   
-          $(".item-list").append(`
-            <div class="item" id="${category}">
-            <div class="name">${name}</div>
-            <div class="description">${description}</div>
-            <div class="settings" style="opacity: 0;"><i class="fas fa-bars"></i></div>
-            </div>
-          `);
+        var check = Object.keys($(".category-details"));
+
+        if (check.length > 2) {   //checks if category windows is open
+          var $categoryDetails = $(".category-details")[0].id  //set category name 
+        }
+
+        if ($categoryDetails === category) { // if category window is open
+          if ($(".item-holder")) {  //if category window is empty
+            $(".item-holder").remove();  //remove empty text
+          }
+          $(".item-list").append(displayItem(name, description, category)); // append new item entry
         } else {
-          alert(`Added ${name} to ${category}`)
+          alert(`Added ${name} to ${category}`) // if category window is not open alert user item was added
         }
       }
     }
@@ -319,19 +320,18 @@ $(document).ready(function() {
     $(".user-input-title").val("");
     $(".user-input-desc").val("");
     resetDropdownBox();
-
   });
 
-  /*
-  Add Category Button Functionality
-  Prompts users to create a new catgeory and appends it to the end of the category list 
+  /* 
+  Category Button Prompts users to create a new catgeory 
+  and appends it to the end of the category list 
   */
   $categoryRow.on('mousedown', 'button.add-category-item', function() {
-    $(this).css({"box-shadow":"1px 1px"})
+    $(this).css({"box-shadow":"1px 1px"})  // hover effect
   });
 
   $categoryRow.on("click", "button.add-category-item", function() {
-    $(this).css({"box-shadow":""})
+    $(this).css({"box-shadow":""})  //remove hover effect
     var category = prompt('Category Name');
     addNewCategory(category);
   });
@@ -340,14 +340,13 @@ $(document).ready(function() {
   Category Button Functianality
   Clicking on a category opens the list of items contained within that category
   */
-
   $categoryRow.on('mouseenter', 'button.category-item', function(event){
     var category = event.target.innerHTML;
-    console.log('hover over ' + category + ' category');
+    console.log('hover over ' + category + ' category'); // brings up delete category button
   });
 
   $categoryRow.on('mousedown', 'button.category-item', function() {
-    $(this).css({"box-shadow":"1px 1px"})
+    $(this).css({"box-shadow":"1px 1px"})  //category hover effect
   });
 
   $categoryRow.on('click', 'button.category-item', function(event){
@@ -364,17 +363,13 @@ $(document).ready(function() {
       
     if (!isCategoryEmpty(category)) {
       var item = localStorage.getObject(category);
-      for (var key in item) {
-        var description = getItemDescription(key, category);
-        $(".item-list").append(`
-        <div class="item" id="${category}">
-        <div class="name">${key}</div>
-        <div class="description">${description}</div>
-        <div class="settings" id="closed" style="opacity: 0;"><i class="fas fa-bars"></i></div>
-        </div>
-        `);
+      for (var name in item) {
+        var description = getItemDescription(name, category);
+        $(".item-list").append(displayItem(name, description, category));
       }
     }
+
+    setCategoryDropdown(category); //sets category dropdown to category selected
 
   //Remove Category from list functionality
   //THIS NEEDS TO BE PUT SOMEWHERE
@@ -396,25 +391,17 @@ $(document).ready(function() {
     addNewCategory(category);
   });
 
-  /*
-  Category Container Close Button
-  X button at the top right of the category title. On click returns user
-  back to the category list
-  */
+  // Category Container Back Button
   $categoryRow.on('click', '#close', function() {
     $categoryRow.html('').append('<div class="category-container"><button class="add-category-item" id="add-category">+</div>')
-    populateCategoryList(); 
+    populateCategoryList();
+    resetDropdownBox(); 
   });
 
-  /*
-  Item Click Functionality 
-  When user clicks on display item brings up edit and delete options
-  */
-  
+  /* Item settings options -- Hover over effects and edit, delete close buttons */
   //Hover over individual item
   $categoryRow.on("mouseenter", ".item", function() {
     var settingsClosed = $(this).children(".settings#closed") // sets settings class with closed ID
-    //var settingsOpened = $(this).children(".settings#opened") // sets settings class with opened ID
     $(settingsClosed).css("opacity", ".3");                   // changes opacity from 0 to .3
 
     $(settingsClosed).on("mouseenter", function() {           // when mouse enters settings
@@ -432,20 +419,35 @@ $(document).ready(function() {
         <i class="far fa-trash-alt" id="delete"></i>
         <i class="fas fa-times" id="close"></i>
       `);
+
+      $('.settings').children('i#edit').on('click', function() {
+        var name = $(this).parents('.item').children('.name').html();
+        var category = this.parentNode.parentNode.id;
+        console.log(name, category)    
+      });
+  
+      $('i#close').on('click', function() {
+        console.log($(this).parent())
+        //$(this).html('<div class="settings" id="closed" style="opacity: 0;"><i class="fas fa-bars"></i></div>')
+        console.log($(this).parent().html())
+        $(this).parent().html('<i class="fas fa-bars"></i>')
+        console.log($(this).parent())
+      });
+
+      $('.settings').children('i#delete').on('click', function() {
+        var name = $(this).parents('.item').children('.name').html();
+        var category = this.parentNode.parentNode.id;
+        var confirm = window.confirm('Are you sure you want to delete ' + name);
+        if (confirm) {
+          $(`.item:contains(${name})`).remove()
+          removeItem(name, category);
+        }
+        isCategoryEmpty(category);
+        });
     });
-
-    $(settingsClosed).on('click', '#edit', function(){
-      console.log('clicked edit button')
-    });
-
-    // $(settingsOpened).on("click", "#close", function(){                   // when mouse clicks X button
-    //   console.log(this);
-    //   $('.settings#opened').prop("id", "closed");                          // reset ID back to closed
-    //   $('.settings#closed').html('<i class="fas fa-bars"></i>');           // replace html back to setting bars
-    // });
-
   });
 
+  // Hover off effect when user mouse leaves item
   $categoryRow.on("mouseleave", ".item", function(event){
     var $settings = $(this).children(".settings");
     $settings.css("opacity", "0");
@@ -462,16 +464,4 @@ $(document).ready(function() {
 
   //   // });
 
-  //   $('#delete').on('click', function(){
-  //     var confirm = window.confirm('Are you sure you want to delete ' + item);
-  //     if (confirm) {
-  //       $(`.item:contains(${item})`).remove()
-  //       removeItem(item, category);
-  //     }
-  //     isCategoryEmpty(category);
-  //   });
-
-  // });
-
- 
 });
