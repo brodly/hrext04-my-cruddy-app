@@ -44,15 +44,17 @@ localStorage.setObject('Movies', movies);
 // Item Class Prototype
 function Item(name, description) {
     var name = name;
-    this[name] = {'description': description };
+    this[name] = {'description': description};
 };
 
 // New item entry display Format
 var displayItem = function(name, description, category) {
-  return `<div class="item" id="${category}">
-          <div class="name">${name}</div>
-          <div class="description">${description}</div>
-          <div class="settings" id="closed" style="opacity: 0;"><i class="fas fa-bars"></i></div>
+  return `<div class="item ${category}" id="${name}">
+            <div class="name">${name}</div>
+            <div class="description">${description}</div>
+            <div class="settings" id="closed" style="opacity: 0;">
+              <i class="fas fa-bars"></i>
+            </div>
           </div>`
 };
 
@@ -412,8 +414,13 @@ $(document).ready(function() {
         $(this).css("opacity", ".3");                         // change opacity from 1 to .3
     });
 
-    $(settingsClosed).on("click", function() {                // when mouse clicks settings button 
-      $(this).prop("id", "opened");                           // change ID to open and replace html
+    $('.settings#opened').on('click', function() {
+      $(this).prop("id", "closed");
+      $(this).html(`<i class="fas fa-bars"></i>`);
+    });
+
+    $(settingsClosed).on("click", function() {
+      $(this).prop("id", "opened");
       $(this).html(`
         <i class="fas fa-pen" id="edit"></i>
         <i class="far fa-trash-alt" id="delete"></i>
@@ -422,21 +429,46 @@ $(document).ready(function() {
 
       $('.settings').children('i#edit').on('click', function() {
         var name = $(this).parents('.item').children('.name').html();
-        var category = this.parentNode.parentNode.id;
-        console.log(name, category)    
+        var description = $(this).parents('.item').children('.description').html();
+        var category = this.parentNode.parentNode.classList[1];
+        $(`.name:contains(${name})`).html(`
+          <input type="text" class="edit-name" placeholder="${name}">
+        `)
+
+        $(`.description:contains(${description})`).html(`
+          <input type="text" class="edit-desc" placeholder="${description}">
+          <button class="edit-confirm">Confirm</button>
+          <button class="edit-cancel">Cancel</button>
+        `)
+
+        $('.edit-cancel').on('click', function(){
+          $('.edit-name').parent().html(name);
+          $('.edit-desc').parent().html(description);
+        });
+
+        $('.edit-confirm').on('click', function(){
+          var newName = formatString($('.edit-name').val());
+          var newDesc = formatString($('.edit-desc').val());
+          
+          if (newName === '') {
+            newName = name;
+          }
+
+          if (newDesc === '') {
+            newDesc = description;
+          }
+
+          $('.edit-name').parent().html(newName);
+          $('.edit-desc').parent().html(newDesc);
+          updateItemName(name, category, newName);
+          updateItemDescription(name, category, newDesc);
+        });
+
       });
   
-      $('i#close').on('click', function() {
-        console.log($(this).parent())
-        //$(this).html('<div class="settings" id="closed" style="opacity: 0;"><i class="fas fa-bars"></i></div>')
-        console.log($(this).parent().html())
-        $(this).parent().html('<i class="fas fa-bars"></i>')
-        console.log($(this).parent())
-      });
-
       $('.settings').children('i#delete').on('click', function() {
         var name = $(this).parents('.item').children('.name').html();
-        var category = this.parentNode.parentNode.id;
+        var category = this.parentNode.parentNode.classList[1];
         var confirm = window.confirm('Are you sure you want to delete ' + name);
         if (confirm) {
           $(`.item:contains(${name})`).remove()

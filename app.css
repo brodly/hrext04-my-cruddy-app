@@ -378,7 +378,7 @@ button#close {
 
 .item {
   display: grid;
-  grid-template-columns: [name] 140px [description] auto [settings] 90px;
+  grid-template-columns: [name] 160px [description] auto [settings] 90px;
   grid-template-areas: name description settings;
   padding: 15px 0px;
   margin: 5px;
@@ -393,7 +393,8 @@ button#close {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   text-align: left;
-  margin-left: 30px
+  margin-left: 30px;
+  border: 0px solid red;
 }
 
 /*Item Description*/
@@ -402,8 +403,8 @@ button#close {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   text-align: left;
-  padding: 0px 50px;
-  border: 0px solid black;
+  margin: 0px 10px 0px 50px;
+  border: 0px solid purple;
 }
 
 /*Edit button on item row*/
@@ -437,6 +438,70 @@ button#close {
 .fa-times {
   color: #3b2727;
 }
+
+input.edit-name {
+  width: 160px;
+  text-align: left;
+  font-size: 1em;
+  font-family: 'Inconsolata', monospace;
+  border: 1px solid black;
+  color: #424141;
+  background-color: #EDE6E3;
+  box-shadow: 1px 1px #1e1c1c;
+  text-indent: 10px;
+}
+
+input.edit-desc {
+  width: 200px;
+  margin: 0px;
+  text-align: center;
+  font-size: 1em;
+  font-family: 'Inconsolata', monospace;
+  border: 1px solid black;
+  color: #424141;
+  background-color: #EDE6E3;
+  box-shadow: 1px 1px #1e1c1c;
+}
+
+button.edit-confirm:hover {
+  background-color: #9fc07a;
+  cursor: pointer;
+  box-shadow: 4px 5px 1px;
+}
+
+button.edit-confirm {
+  margin-left: 20px;
+  margin-right: 10px;
+  height: auto;
+  /* width: 100px; */
+  text-align: center;
+  font-size: 1em;
+  font-family: 'Inconsolata', monospace;
+  border: 1px solid black;
+  color: #1e1c1c;
+  background-color: rgb(238, 214, 204);
+  box-shadow: 1px 1px #1e1c1c;
+}
+
+button.edit-cancel:hover {
+  background-color: #e04141;
+  cursor: pointer;
+  box-shadow: 4px 5px 1px;
+}
+
+button.edit-cancel {
+  height: auto;
+  /* width: 100px; */
+  text-align: center;
+  font-size: 1em;
+  font-family: 'Inconsolata', monospace;
+  border: 1px solid black;
+  color: #1e1c1c;
+  background-color: rgb(238, 214, 204);
+  box-shadow: 1px 1px #1e1c1c;
+}
+
+
 
 /* Style when item list is empty*/
 .item-holder {
