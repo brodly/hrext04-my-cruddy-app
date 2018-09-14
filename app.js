@@ -10,25 +10,25 @@ Storage.prototype.getObject = function(key) {
 //Default Test Data
 var categoryList = ['Books', 'Recipes', 'Movies', 'Restaurants'];
 var books = {
+  'Cosmos': {
+    description: '14 billion years of cosmic evolution'
+  },
+
   'The Great Gatsby': {
-    description: 'Quintessential novel of the Jazz Age'
+    description: 'Story of the mysteriously wealthy Jay Gatsby'
   },
 
   'Mastering Bitcoin' : {
-    description: 'Programming the Open Blockchain'
+    description: 'Technical foundations of bitcoin'
   },
-
-  'Meditations': {
-    description: 'A pillar of western philosophy and literature'
-  }
 };
 
 var recipes = {
-  'Apple Pie': {
-    description: 'A classic!'
+  'Cheeseburger': {
+    description: 'A classic. Mmmm!'
   },
 
-  'Spinach Enchiladas': {
+  'Chicken Enchiladas': {
     description: 'Try for a weeknight dinner'
   }
 }
@@ -77,6 +77,18 @@ var searchLocalStorage = function(term) {
       return false;
     }
   }
+};
+
+var search = function(word) {
+  for (var key in localStorage) {
+    var check = localStorage.getObject(key)
+    for (var prop in check) {
+      if (prop === word) {
+        return key;
+      }
+    }
+  }
+  return false
 };
 
 /* 
@@ -194,20 +206,41 @@ var popFromCategoryArray = function(category) {
 //Category List Functions
 var populateCategoryList = function() {
   for (var category of categoryList) {
-    $(".category-container").append(`<button class="category-item" id='${category}'><div class="close">Close</div>${category}</button>`)
+    $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`)
   }
 };
 
-var addToCategoryList = function (category) {
-  $(".category-container").append(`<button class="category-item" id='${category}'><div class="close">Close</div>${category}</button>`);
+var addToCategoryList = function(category) {
+  $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`);
 };
 
 var removeFromCategoryList = function(category) {
   if (categoryList.includes(category)) {
     $(`button.category-item:contains(${category})`).remove();
   } else {
-    alert(category + ' does not exist!')
+    alert(category + ' does not exist!');
   }
+};
+
+var openCategoryList = function(category) {
+  $(".category-row").html(`
+    <div class="category-details" id="${category}">
+    <button id="close"><i class="fas fa-chevron-left"></i></button>
+    <div id="title">${category}</div>
+    <div class="item-list">
+    </div>
+    </div>
+  `); 
+    
+  if (!isCategoryEmpty(category)) {
+    var item = localStorage.getObject(category);
+    for (var name in item) {
+      var description = getItemDescription(name, category);
+      $(".item-list").append(displayItem(name, description, category));
+    }
+  }
+
+  setCategoryDropdown(category);
 };
 
 // Category Dropdown Functions
@@ -258,13 +291,8 @@ var resetDropdownBox = function() {
   $("select").prop('selectedIndex', '#select-category');
 };
 
-
 /* jQuery Begins */
 $(document).ready(function() {
-  resetDropdownBox();
-  populateCategoryList();
-  populateCategoryDropdown();
-
   /* Selector variables*/
   var $inputSearchBar = $("input.search-bar");
   var $addTextBtn = $(".add-text-btn");
@@ -275,23 +303,27 @@ $(document).ready(function() {
   var $itemList = $(".item-list");
   var $categoryDisplay = $(".category-details");
 
-  // Search bar functionality
-  // Both on individual keypress (realtime search) and on enter
-  $inputSearchBar.on('keyup', function(event) {
-    var $searchVal = $inputSearchBar.val();
-    if (searchLocalStorage($searchVal) !== false) {
-      console.log(localStorage.getObject(searchLocalStorage($searchVal)));
-    }
-  });
+  //On Load reset
+  resetDropdownBox();
+  populateCategoryList();
+  populateCategoryDropdown();
+  $inputSearchBar.val('');
 
+  // Search functionality
   $inputSearchBar.on('keypress', function(event) {
     var key = event.which;
-    var $searchVal = $inputSearchBar.val();
+    var searchTerm = $inputSearchBar.val();
+    searchTerm = formatString(searchTerm);
     if (key === 13) {
-      console.log(localStorage.getObject(searchLocalStorage($searchVal)));
+      var result = search(searchTerm);
+      if (result !== false) {
+        openCategoryList(result);
+      } else {
+        alert('No match found. Sorry!')
+      }
+      $inputSearchBar.val('')
     }
   });
-
 
   /* Add Item Button */
   $addTextBtn.on('mousedown', function() {
@@ -306,7 +338,7 @@ $(document).ready(function() {
     let category = $("select").val();
 
     if (category === null) {
-      alert('You gotta pick a category!')
+      alert('You should pick a category!')
     } else {
       if (addNewItem(name, description, category)) {
         var check = Object.keys($(".category-details"));
@@ -347,7 +379,7 @@ $(document).ready(function() {
   // Clicking on a category opens the list of items contained within that category
   $categoryRow.on('mouseenter', 'button.category-item', function(event){
     var category = event.target.innerHTML;
-    console.log('hover over ' + category + ' category'); // brings up delete category button
+    console.log('hover over ' + category + ' category'); // will bring up delete category button
   });
 
   $categoryRow.on('mousedown', 'button.category-item', function() {
@@ -357,27 +389,9 @@ $(document).ready(function() {
   $categoryRow.on('click', 'button.category-item', function(event){
     $(this).css({"box-shadow":""})
     var category = event.target.innerHTML;
-    $categoryRow.html(`
-      <div class="category-details" id="${category}">
-      <button id="close"><i class="fas fa-chevron-left"></i></button>
-      <div id="title">${category}</div>
-      <div class="item-list">
-      </div>
-      </div>
-    `); 
-      
-    if (!isCategoryEmpty(category)) {
-      var item = localStorage.getObject(category);
-      for (var name in item) {
-        var description = getItemDescription(name, category);
-        $(".item-list").append(displayItem(name, description, category));
-      }
-    }
-
-    setCategoryDropdown(category); //sets category dropdown to category selected
+    openCategoryList(category);
 
   //Remove Category from list functionality
-  //THIS NEEDS TO BE PUT SOMEWHERE
   // if ($("select").val() === category) {
   //   resetDropdownBox();
   // }
@@ -386,9 +400,6 @@ $(document).ready(function() {
   // removeFromCategoryDropdown(category);
   // popFromCategoryArray(category);
 
-  //Enter Category Page Functionality
-  //THIS IS HARDCODED NEEDS TO BE DYNAMIC
- 
   });
 
   $("select").on("click", "#add-category", function(){

@@ -294,7 +294,7 @@ the category details (i.e items within categories)
   outline-color: #351212;
 }
 
-button.category-item, button.add-category-item {
+button.category-item {
   width: 150px;
   height: 150px;
   margin: 15px;
@@ -303,26 +303,27 @@ button.category-item, button.add-category-item {
   color: #080101;
   box-shadow: 1.5px 1.5px;
   font-family: 'Inconsolata', monospace;
+  background: rgba(163, 160, 163, 0.623);
+  border: 1px solid rgb(14, 10, 10);
 }
 
-/* Style for add new category button */
 .add-category-item:hover {
   opacity: 1;
 }
 
 button.add-category-item {
+  width: 150px;
+  height: 150px;
+  margin: 15px;
+  text-align: center;
+  color: #080101;
+  box-shadow: 1.5px 1.5px;
+  font-family: 'Inconsolata', monospace;
   order: 1;
   background: #7a7a7a;
   opacity: .7;
   font-size: 2.5em;
-  text-align: center;
   border: 1px dashed rgb(34, 30, 30);
-}
-
-/* Specific style for each category */
-button.category-item {
-  background: rgba(163, 160, 163, 0.623);
-  border: 1px solid rgb(14, 10, 10);
 }
 
 /* Header title for category details section (i.e Books) */
