@@ -49,7 +49,8 @@ function Item(name, description) {
 
 // New item entry display Format
 var displayItem = function(name, description, category) {
-  if (name === 'Corgi' && category === 'Corgi') {   //corgi easter egg
+  name = formatString(name);
+  if (name === 'Corgi') {   //corgi easter egg
     return `<div class="item ${category}" id="corgi">
     <div class="name">${name}</div>
     <div class="description">${description}</div>
@@ -339,20 +340,19 @@ $(document).ready(function() {
         }
 
         if ($categoryDetails === category) { // if category window is open
-          if ($(".item-holder")) {  //if category window is empty
+          if ($(".item-holder")) {   //if category window is empty
             $(".item-holder").remove();  //remove empty text
           }
           $(".item-list").append(displayItem(name, description, category)); // append new item entry
         } else {
-          alert(`Added ${name} to ${category}`); // if category window is not open alert user item was added
+          alert(`Added ${formatString(name)} to ${category}`); // if category window is not open alert user item was added
         }
       }
+      // Clear/Reset Item Entry Forms
+      $(".user-input-title").val("");
+      $(".user-input-desc").val("");
+      resetDropdownBox();
     }
-
-    // Clear/Reset Item Entry Forms
-    $(".user-input-title").val("");
-    $(".user-input-desc").val("");
-    resetDropdownBox();
   });
 
   //Category Button Prompts users to create a new catgeory and appends it to the end of the category list 
