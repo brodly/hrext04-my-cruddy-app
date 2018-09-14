@@ -49,7 +49,7 @@ function Item(name, description) {
 
 // New item entry display Format
 var displayItem = function(name, description, category) {
-  if (name === 'Corgi') {
+  if (name === 'Corgi' && category === 'Corgi') {
     return `<div class="item ${category}" id="corgi">
     <div class="name">${name}</div>
     <div class="description">${description}</div>

@@ -456,7 +456,7 @@ input.edit-name {
 }
 
 input.edit-desc {
-  width: 200px;
+  width: auto;
   margin: 0px;
   text-align: center;
   font-size: 1em;
