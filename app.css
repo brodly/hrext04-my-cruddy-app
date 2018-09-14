@@ -376,6 +376,10 @@ button#close {
   cursor: default;
 }
 
+.item#corgi:hover {
+  background: url("https://media.giphy.com/media/YtPdK4YyUzBhC/giphy.gif");
+}
+
 .item {
   display: grid;
   grid-template-columns: [name] 160px [description] auto [settings] 90px;

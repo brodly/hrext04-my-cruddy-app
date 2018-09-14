@@ -10,26 +10,26 @@ Storage.prototype.getObject = function(key) {
 //Default Test Data
 var categoryList = ['Books', 'Recipes', 'Movies', 'Restaurants'];
 var books = {
-  'Great Gatsby': {
-    description: 'This is a good book'
+  'The Great Gatsby': {
+    description: 'Quintessential novel of the Jazz Age'
   },
 
-  'The Bible' : {
-    description: 'epic'
+  'Mastering Bitcoin' : {
+    description: 'Programming the Open Blockchain'
   },
 
   'Meditations': {
-    description: 'marcus'
+    description: 'A pillar of western philosophy and literature'
   }
 };
 
 var recipes = {
   'Apple Pie': {
-    description: 'Yummy'
+    description: 'A classic!'
   },
 
-  'Pizza Pie': {
-    description: 'Cheese, Sauce, and dough'
+  'Spinach Enchiladas': {
+    description: 'Try for a weeknight dinner'
   }
 }
 var movies = {};
@@ -49,6 +49,16 @@ function Item(name, description) {
 
 // New item entry display Format
 var displayItem = function(name, description, category) {
+  if (name === 'Corgi') {
+    return `<div class="item ${category}" id="corgi">
+    <div class="name">${name}</div>
+    <div class="description">${description}</div>
+    <div class="settings" id="closed" style="opacity: 0;">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>`
+  }
+
   return `<div class="item ${category}" id="${name}">
             <div class="name">${name}</div>
             <div class="description">${description}</div>
@@ -184,12 +194,12 @@ var popFromCategoryArray = function(category) {
 //Category List Functions
 var populateCategoryList = function() {
   for (var category of categoryList) {
-    $(".category-container").append(`<button class="category-item" id='${category}'>${category}</div>`)
+    $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`)
   }
 };
 
 var addToCategoryList = function (category) {
-  $(".category-container").append(`<button class="category-item" id='${category}'>${category}</div>`);
+  $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`);
 };
 
 var removeFromCategoryList = function(category) {
@@ -265,10 +275,8 @@ $(document).ready(function() {
   var $itemList = $(".item-list");
   var $categoryDisplay = $(".category-details");
 
-  /* 
-  Search bar functionality
-  Both on individual keypress (realtime search) and on enter
-  */
+  // Search bar functionality
+  // Both on individual keypress (realtime search) and on enter
   $inputSearchBar.on('keyup', function(event) {
     var $searchVal = $inputSearchBar.val();
     if (searchLocalStorage($searchVal) !== false) {
@@ -324,10 +332,7 @@ $(document).ready(function() {
     resetDropdownBox();
   });
 
-  /* 
-  Category Button Prompts users to create a new catgeory 
-  and appends it to the end of the category list 
-  */
+  //Category Button Prompts users to create a new catgeory and appends it to the end of the category list 
   $categoryRow.on('mousedown', 'button.add-category-item', function() {
     $(this).css({"box-shadow":"1px 1px"})  // hover effect
   });
@@ -338,10 +343,8 @@ $(document).ready(function() {
     addNewCategory(category);
   });
 
-  /*
-  Category Button Functianality
-  Clicking on a category opens the list of items contained within that category
-  */
+  // Category Button Functianality
+  // Clicking on a category opens the list of items contained within that category
   $categoryRow.on('mouseenter', 'button.category-item', function(event){
     var category = event.target.innerHTML;
     console.log('hover over ' + category + ' category'); // brings up delete category button
@@ -404,6 +407,7 @@ $(document).ready(function() {
   //Hover over individual item
   $categoryRow.on("mouseenter", ".item", function() {
     var settingsClosed = $(this).children(".settings#closed") // sets settings class with closed ID
+
     $(settingsClosed).css("opacity", ".3");                   // changes opacity from 0 to .3
 
     $(settingsClosed).on("mouseenter", function() {           // when mouse enters settings
@@ -432,11 +436,11 @@ $(document).ready(function() {
         var description = $(this).parents('.item').children('.description').html();
         var category = this.parentNode.parentNode.classList[1];
         $(`.name:contains(${name})`).html(`
-          <input type="text" class="edit-name" placeholder="${name}">
+          <input type="text" class="edit-name" value="${name}"></input>
         `)
 
         $(`.description:contains(${description})`).html(`
-          <input type="text" class="edit-desc" placeholder="${description}">
+          <input type="text" class="edit-desc" value="${description}"></input>
           <button class="edit-confirm">Confirm</button>
           <button class="edit-cancel">Cancel</button>
         `)
@@ -450,20 +454,21 @@ $(document).ready(function() {
           var newName = formatString($('.edit-name').val());
           var newDesc = formatString($('.edit-desc').val());
           
-          if (newName === '') {
-            newName = name;
+          if (newName !== name) {
+            $('.edit-name').parent().html(newName);
+            updateItemName(name, category, newName);
+          } else {
+            $('.edit-name').parent().html(name);
           }
 
-          if (newDesc === '') {
-            newDesc = description;
+          if (newDesc !== description) {
+            $('.edit-desc').parent().html(newDesc);
+            updateItemDescription(name, category, newDesc);
+          } else {
+            $('.edit-desc').parent().html(description);
           }
 
-          $('.edit-name').parent().html(newName);
-          $('.edit-desc').parent().html(newDesc);
-          updateItemName(name, category, newName);
-          updateItemDescription(name, category, newDesc);
         });
-
       });
   
       $('.settings').children('i#delete').on('click', function() {
@@ -484,16 +489,5 @@ $(document).ready(function() {
     var $settings = $(this).children(".settings");
     $settings.css("opacity", "0");
   });
-
-  // $categoryRow.on("click", ".settings", function(event) {
-  //   var item = event.target.parentNode.previousSibling.previousSibling.data;
-  //   var category = event.target.parentNode.parentNode.id;
-  //   $('.settings').html('<i class="fas fa-pen" id="edit"></i><i class="far fa-trash-alt" id="delete"></i>')
-  //   //updateItemName(item, category, 'Grate Slatsby');
-  //   //updateItemDescription(item, category, 'the green light')
-
-  //   // $('#edit').on('click', function(){
-
-  //   // });
 
 });
