@@ -25,11 +25,11 @@ var books = {
 
 var recipes = {
   'Cheeseburger': {
-    description: 'A classic. Mmmm!'
+    description: 'A tasty classic. Mmmm!'
   },
 
   'Chicken Enchiladas': {
-    description: 'Try for a weeknight dinner'
+    description: 'Might be good for a weeknight dinner'
   }
 }
 var movies = {};
@@ -49,7 +49,7 @@ function Item(name, description) {
 
 // New item entry display Format
 var displayItem = function(name, description, category) {
-  if (name === 'Corgi' && category === 'Corgi') {
+  if (name === 'Corgi' && category === 'Corgi') {   //corgi easter egg
     return `<div class="item ${category}" id="corgi">
     <div class="name">${name}</div>
     <div class="description">${description}</div>
@@ -68,17 +68,7 @@ var displayItem = function(name, description, category) {
           </div>`
 };
 
-//Searches Local Storage for matching Item Object and returns if found
-var searchLocalStorage = function(term) {
-  for (var i of Object.keys(localStorage)) {
-    if (i.replace(/\s+/g, '').toLowerCase() === term.replace(/\s+/g, '').toLowerCase()) {
-      return i;
-    } else {
-      return false;
-    }
-  }
-};
-
+//Search -- takes in term and returns category if found. returns false if no match
 var search = function(word) {
   for (var key in localStorage) {
     var check = localStorage.getObject(key)
@@ -198,7 +188,7 @@ var popFromCategoryArray = function(category) {
     if (index > -1) {
       categoryList.splice(index, 1);
       localStorage.setObject('categoryList', categoryList);
-      alert(category + " category removed")
+      alert(category + " category removed");
     }
   }
 };
@@ -206,7 +196,7 @@ var popFromCategoryArray = function(category) {
 //Category List Functions
 var populateCategoryList = function() {
   for (var category of categoryList) {
-    $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`)
+    $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`);
   }
 };
 
@@ -239,7 +229,6 @@ var openCategoryList = function(category) {
       $(".item-list").append(displayItem(name, description, category));
     }
   }
-
   setCategoryDropdown(category);
 };
 
@@ -258,7 +247,7 @@ var removeFromCategoryDropdown = function(category) {
   if (categoryList.includes(category)) {
     $(`option:contains(${category})`).remove();
   } else {
-    alert(category + ' does not exist!')
+    alert(category + ' does not exist!');
   }
 };
 
@@ -303,7 +292,7 @@ $(document).ready(function() {
   var $itemList = $(".item-list");
   var $categoryDisplay = $(".category-details");
 
-  //On Load reset
+  //Instantiate page on first load
   resetDropdownBox();
   populateCategoryList();
   populateCategoryDropdown();
@@ -313,21 +302,23 @@ $(document).ready(function() {
   $inputSearchBar.on('keypress', function(event) {
     var key = event.which;
     var searchTerm = $inputSearchBar.val();
+    
     searchTerm = formatString(searchTerm);
-    if (key === 13) {
+
+    if (key === 13) {  // 13 = enter key
       var result = search(searchTerm);
       if (result !== false) {
         openCategoryList(result);
       } else {
-        alert('No match found. Sorry!')
+        alert('No match found. Sorry!');
       }
-      $inputSearchBar.val('')
+      $inputSearchBar.val('');
     }
   });
 
   /* Add Item Button */
   $addTextBtn.on('mousedown', function() {
-    $(this).css({"box-shadow":"1px 1px"})   //Click box shadow effect
+    $(this).css({"box-shadow":"1px 1px"});   //Click box shadow effect
   });
 
   $addTextBtn.on("click", function(){
@@ -338,13 +329,13 @@ $(document).ready(function() {
     let category = $("select").val();
 
     if (category === null) {
-      alert('You should pick a category!')
+      alert('You should pick a category!');
     } else {
       if (addNewItem(name, description, category)) {
         var check = Object.keys($(".category-details"));
 
         if (check.length > 2) {   //checks if category windows is open
-          var $categoryDetails = $(".category-details")[0].id  //set category name 
+          var $categoryDetails = $(".category-details")[0].id;  //set category name 
         }
 
         if ($categoryDetails === category) { // if category window is open
@@ -353,7 +344,7 @@ $(document).ready(function() {
           }
           $(".item-list").append(displayItem(name, description, category)); // append new item entry
         } else {
-          alert(`Added ${name} to ${category}`) // if category window is not open alert user item was added
+          alert(`Added ${name} to ${category}`); // if category window is not open alert user item was added
         }
       }
     }
@@ -402,6 +393,7 @@ $(document).ready(function() {
 
   });
 
+  //Add new category from dropbown list
   $("select").on("click", "#add-category", function(){
     var category = prompt('Category Name');
     addNewCategory(category);
@@ -426,7 +418,7 @@ $(document).ready(function() {
     });
 
     $(settingsClosed).on("mouseleave", function() {           // when mouse leaves settings with closed ID
-        $(this).css("opacity", ".3");                         // change opacity from 1 to .3
+      $(this).css("opacity", ".3");                         // change opacity from 1 to .3
     });
 
     $('.settings#opened').on('click', function() {
@@ -446,15 +438,16 @@ $(document).ready(function() {
         var name = $(this).parents('.item').children('.name').html();
         var description = $(this).parents('.item').children('.description').html();
         var category = this.parentNode.parentNode.classList[1];
+
         $(`.name:contains(${name})`).html(`
           <input type="text" class="edit-name" value="${name}"></input>
-        `)
+        `);
 
         $(`.description:contains(${description})`).html(`
           <input type="text" class="edit-desc" value="${description}"></input>
           <button class="edit-confirm">Confirm</button>
           <button class="edit-cancel">Cancel</button>
-        `)
+        `);
 
         $('.edit-cancel').on('click', function(){
           $('.edit-name').parent().html(name);
@@ -486,12 +479,14 @@ $(document).ready(function() {
         var name = $(this).parents('.item').children('.name').html();
         var category = this.parentNode.parentNode.classList[1];
         var confirm = window.confirm('Are you sure you want to delete ' + name);
+        
         if (confirm) {
           $(`.item:contains(${name})`).remove()
           removeItem(name, category);
         }
+
         isCategoryEmpty(category);
-        });
+      });
     });
   });
 
