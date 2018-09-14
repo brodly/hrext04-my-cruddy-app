@@ -12,13 +12,13 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 ### Front End
 - [√] display items
   - [√] display items in respected categories
-- [ ] remove items from display
+- [√] remove items from display
 - [√] enter new item
 - [√] select item for edit
-- [ ] select item for delete
-  - [ ] confirm delete box
+- [√] select item for delete
+  - [√] confirm delete box
 - [√] a form!
-- [ ] search bar
+- [√] search bar
 - [√] items should be objects
 
 ### Backend
@@ -26,11 +26,11 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 - [√] Refactor category input code to append new categories to categoryList array
 
 ### UI/UX
-- [ ] Confirmation of delete/update
+- [√] Confirmation of delete/update
 - [ ] Sortable list
-- [ ] Navigation/Pagination
+- [√] Navigation/Pagination
 - [ ] Mouse over Preview
-- [ ] Searching/Filtering
+- [√] Searching/Filtering
 - [ ] Animations/Transitions
 
 ### Library Considerations
@@ -54,24 +54,23 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
 
 ## basic features
 - [√] Populate index.html on first load with new items and categories 
-- [4] search form at top
+- [√] search form at top
 - [√] input item form under search
   - [√] adding items has dropdown list with general categories
   - [√] + button to add new category
 - [√] categories to hold specific items below input
   - [√] grid based layout 3 x 4 (3 across/infinte down?)
 - [√] Category page needs to be dynamic   
-- [3] edit items
-  - [ ] functionality
+- [√] edit items
+  - [√] functionality
   - [√] build UI
   - [√] hover over edit options
 - [√] populate dropdown category from category array  
-- [2] fully delete category
-  - [1] button for delete
+- [√] fully delete category
+  - [√] button for delete
   - [√] delete from dropdown list
-  - [1] what to do with items in a deleted category?? 
-
-- [2] secret corgi easter egg when user added corgi to specific category  
+  - [√] what to do with items in a deleted category?? 
+- [√] secret corgi easter egg when user added corgi to specific category  
 
 ## advanced features
 - [3] select and delete multiple items (highlight/checkbox?)
@@ -101,5 +100,5 @@ An app that collects and organizes a users wants, needs, and interests. Instead 
   - [7] color layout/themes
 
  ## design ideas
-- [2] fillet edges of boxes
-- [2] strike-through completed/deleted items
+- [-] fillet edges of boxes
+- [-] strike-through completed/deleted items
