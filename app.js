@@ -48,7 +48,7 @@ function Item(name, description) {
 };
 
 // New item entry display Format
-var displayItem = function(name, description, category) {
+function displayItem(name, description, category) {
   name = formatString(name);
   if (name === 'Corgi') {   //corgi easter egg
     return `<div class="item ${category}" id="corgi">
@@ -70,7 +70,7 @@ var displayItem = function(name, description, category) {
 };
 
 //Search -- takes in term and returns category if found. returns false if no match
-var search = function(word) {
+function search(word) {
   for (var key in localStorage) {
     var check = localStorage.getObject(key)
     for (var prop in check) {
@@ -89,13 +89,13 @@ i.e Website, Toy Story, This Is My House
 
 Not working with apostrophes (')
 */
-var formatString = function(string) {
+function formatString(string) {
   return string.replace(/(^|\s)[a-z]/g, function(f) {
     return f.toUpperCase();
   })
 };
 
-var addNewItem = function(name, description, category) {
+function addNewItem(name, description, category) {
   category = formatString(category);
   name = formatString(name);
   
@@ -115,7 +115,7 @@ var addNewItem = function(name, description, category) {
   return true;
 };
 
-var getItemDescription = function(name, category) {
+function getItemDescription(name, category) {
   if (localStorage.getObject(category)) {
     var item = localStorage.getObject(category);
     for (var prop in item) {
@@ -126,7 +126,7 @@ var getItemDescription = function(name, category) {
   } 
 };
 
-var updateItemName = function(name, category, newName) {
+function updateItemName(name, category, newName) {
   if (localStorage.getObject(category)) {
     var item = localStorage.getObject(category);
     for (var prop in item) {
@@ -140,7 +140,7 @@ var updateItemName = function(name, category, newName) {
   }
 };
 
-var updateItemDescription = function(name, category, newDescription) {
+function updateItemDescription(name, category, newDescription) {
   if (localStorage.getObject(category)) {
     var item = localStorage.getObject(category);
     for (var prop in item) {
@@ -152,7 +152,7 @@ var updateItemDescription = function(name, category, newDescription) {
   } 
 };
 
-var isCategoryEmpty = function(category) {
+function isCategoryEmpty(category) {
   if (localStorage.getObject(category) === null || Object.keys(localStorage.getObject(category)).length === 0) {
     $(".item-list").append(`<div class="item-holder">You should really add something!</div>`);
   } else {
@@ -160,7 +160,7 @@ var isCategoryEmpty = function(category) {
   }
 };
 
-var removeItem = function(name, category) {
+function removeItem(name, category) {
   if (!isCategoryEmpty(category)) {
     var item = localStorage.getObject(category);
     if (Object.keys(item).includes(name)) {
@@ -171,7 +171,7 @@ var removeItem = function(name, category) {
 };
 
 //Updates categoryList with string when user adds a new category
-var pushToCategoryArray = function(category) {
+function pushToCategoryArray(category) {
   if (!categoryList.includes(category)) {
     categoryList.push(category);
     localStorage.setObject("categoryList", categoryList);
@@ -183,7 +183,7 @@ var pushToCategoryArray = function(category) {
 };
 
 //Removes category string from categoryList
-var popFromCategoryArray = function(category) {
+function popFromCategoryArray(category) {
   if (categoryList.includes(category)) {
     var index = categoryList.indexOf(category);
     if (index > -1) {
@@ -195,17 +195,17 @@ var popFromCategoryArray = function(category) {
 };
 
 //Category List Functions
-var populateCategoryList = function() {
+function populateCategoryList() {
   for (var category of categoryList) {
     $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`);
   }
 };
 
-var addToCategoryList = function(category) {
+function addToCategoryList(category) {
   $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`);
 };
 
-var removeFromCategoryList = function(category) {
+function removeFromCategoryList(category) {
   if (categoryList.includes(category)) {
     $(`button.category-item:contains(${category})`).remove();
   } else {
@@ -213,7 +213,7 @@ var removeFromCategoryList = function(category) {
   }
 };
 
-var openCategoryList = function(category) {
+function openCategoryList(category) {
   $(".category-row").html(`
     <div class="category-details" id="${category}">
     <button id="close"><i class="fas fa-chevron-left"></i></button>
@@ -234,17 +234,17 @@ var openCategoryList = function(category) {
 };
 
 // Category Dropdown Functions
-var populateCategoryDropdown = function(){
+function populateCategoryDropdown(){
   for (var e of categoryList) {
     $("select").append(`<option>${e}</option>`);
   }
 };
 
-var addToCategoryDropdown = function(category) {
+function addToCategoryDropdown(category) {
   $("select").append(`<option selected>${category}</option>`);
 };
 
-var removeFromCategoryDropdown = function(category) {
+function removeFromCategoryDropdown(category) {
   if (categoryList.includes(category)) {
     $(`option:contains(${category})`).remove();
   } else {
@@ -252,16 +252,16 @@ var removeFromCategoryDropdown = function(category) {
   }
 };
 
-var setCategoryDropdown = function(category) {
+function setCategoryDropdown(category) {
   $("select").val(category).change();
 }
 
 // Add New Category Functions
-var createNewCategoryObject = function(category) {
+function createNewCategoryObject(category) {
   localStorage.setObject(category, {});
 };
 
-var addNewCategory = function(category) {
+function addNewCategory(category) {
   if (category !== null) {
     if (category !== '') {
       category = formatString(category);
@@ -277,7 +277,7 @@ var addNewCategory = function(category) {
 };
 
 //Resets dropdown box to default 'Pick a Category' text
-var resetDropdownBox = function() {
+function resetDropdownBox() {
   $("select").prop('selectedIndex', '#select-category');
 };
 
