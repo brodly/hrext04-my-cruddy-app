@@ -194,12 +194,12 @@ var popFromCategoryArray = function(category) {
 //Category List Functions
 var populateCategoryList = function() {
   for (var category of categoryList) {
-    $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`)
+    $(".category-container").append(`<button class="category-item" id='${category}'><div class="close">Close</div>${category}</button>`)
   }
 };
 
 var addToCategoryList = function (category) {
-  $(".category-container").append(`<button class="category-item" id='${category}'>${category}</button>`);
+  $(".category-container").append(`<button class="category-item" id='${category}'><div class="close">Close</div>${category}</button>`);
 };
 
 var removeFromCategoryList = function(category) {
